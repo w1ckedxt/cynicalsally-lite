@@ -1,0 +1,14 @@
+# Render Blueprint — Sally Lite (one-click deploy for developers)
+# https://docs.render.com/infrastructure-as-code
+
+services:
+  - type: worker
+    name: sally-lite
+    runtime: node
+    region: frankfurt
+    plan: free
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: SALLY_API_URL
+        value: https://cynicalsally-web.onrender.com

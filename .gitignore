@@ -1,0 +1,4 @@
+node_modules/
+plan/
+.env
+.DS_Store

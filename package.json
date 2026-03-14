@@ -1,0 +1,17 @@
+{
+  "name": "cynicalsally-lite",
+  "version": "1.0.0",
+  "description": "Sally Lite — AI code reviewer with zero filter. Deploy on Render in one click.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": ["code-review", "ai", "cli", "render", "developer-tools"],
+  "author": "CynicalSally",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "ora": "^8.1.0"
+  }
+}
