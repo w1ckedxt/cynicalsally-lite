@@ -2,13 +2,14 @@
 # https://docs.render.com/infrastructure-as-code
 
 services:
-  - type: worker
+  - type: web
     name: sally-lite
     runtime: node
     region: frankfurt
     plan: free
     buildCommand: npm install
-    startCommand: node index.js
+    startCommand: node server.js
+    healthCheckPath: /health
     envVars:
       - key: SALLY_API_URL
         value: https://cynicalsally-web.onrender.com
