@@ -190,10 +190,22 @@ const HTML = `<!DOCTYPE html>
       text-align: center;
       margin-bottom: 2rem;
     }
+    .header-title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      margin-bottom: 0.3rem;
+    }
+    .header-title img {
+      width: 36px;
+      height: 36px;
+      image-rendering: pixelated;
+    }
     .header h1 {
       font-size: 1.8rem;
       color: #e8503a;
-      margin-bottom: 0.3rem;
+      margin: 0;
     }
     .header h1 span { color: #e0e0e0; }
     .header p {
@@ -201,10 +213,11 @@ const HTML = `<!DOCTYPE html>
       font-size: 0.85rem;
     }
     .header .tagline {
-      color: #555;
-      font-size: 0.75rem;
+      color: #ccc;
+      font-size: 1rem;
       font-style: italic;
-      margin-top: 0.4rem;
+      margin-top: 0.6rem;
+      line-height: 1.5;
     }
 
     /* Quota badge */
@@ -513,7 +526,10 @@ const HTML = `<!DOCTYPE html>
   </div>
   <div class="container">
     <div class="header">
-      <h1>&#9760; Sally <span>Lite</span></h1>
+      <div class="header-title">
+        <img src="/sally-head.png" alt="Sally">
+        <h1>Sally <span>Lite</span></h1>
+      </div>
       <p>Paste your code. Get roasted. No mercy.</p>
       <p class="tagline">"Because 'You're absolutely right' is probably absolutely wrong."</p>
     </div>
