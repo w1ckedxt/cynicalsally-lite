@@ -470,10 +470,8 @@ const HTML = `<!DOCTYPE html>
     }
     .tool-card:hover { border-color: #e8503a33; }
     .tool-card img {
-      width: 110px;
-      height: 110px;
-      object-fit: cover;
-      object-position: center 55%;
+      width: 180px;
+      height: auto;
       border-radius: 6px;
       flex-shrink: 0;
     }
