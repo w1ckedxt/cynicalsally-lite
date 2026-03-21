@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
 
 const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
+const PIXEL_SALLY = readFileSync(new URL("./pixelsally-cursedqueen.png", import.meta.url));
 
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
@@ -50,6 +51,13 @@ const server = createServer(async (req, res) => {
   if (req.method === "GET" && req.url === "/sally-banner.png") {
     res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
     res.end(BANNER);
+    return;
+  }
+
+  // Serve pixel Sally
+  if (req.method === "GET" && req.url === "/pixelsally-cursedqueen.png") {
+    res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
+    res.end(PIXEL_SALLY);
     return;
   }
 
@@ -405,10 +413,16 @@ const HTML = `<!DOCTYPE html>
     .footer {
       text-align: center;
       margin-top: 2rem;
-      padding-top: 1rem;
+      padding-top: 1.5rem;
       border-top: 1px solid #1a1a1a;
-      color: #333;
+      color: #444;
       font-size: 0.7rem;
+    }
+    .footer-sally {
+      width: 64px;
+      height: auto;
+      margin-bottom: 0.5rem;
+      image-rendering: pixelated;
     }
     .footer a { color: #555; text-decoration: none; }
     .footer a:hover { color: #e8503a; }
@@ -488,6 +502,9 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="footer">
+      <img src="/pixelsally-cursedqueen.png" alt="Sally" class="footer-sally">
+      <p style="margin-bottom:0.2rem"><strong style="color:#e8503a">Cynical Sally</strong> &mdash; brutally honest code reviews</p>
+      <p style="margin-bottom:1rem">The senior engineer your code hoped it'd never meet.</p>
       <p>Powered by <a href="https://cynicalsally.com" target="_blank">CynicalSally</a> &middot; Running on <a href="https://render.com" target="_blank">Render</a></p>
     </div>
   </div>
