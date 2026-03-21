@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 
 const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
 const PIXEL_SALLY = readFileSync(new URL("./pixelsally-cursedqueen.png", import.meta.url));
+const SALLY_HEAD = readFileSync(new URL("./sally-head.png", import.meta.url));
 
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
@@ -58,6 +59,13 @@ const server = createServer(async (req, res) => {
   if (req.method === "GET" && req.url === "/pixelsally-cursedqueen.png") {
     res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
     res.end(PIXEL_SALLY);
+    return;
+  }
+
+  // Serve Sally head
+  if (req.method === "GET" && req.url === "/sally-head.png") {
+    res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
+    res.end(SALLY_HEAD);
     return;
   }
 
@@ -495,7 +503,7 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="cta">
-      <img src="/pixelsally-cursedqueen.png" alt="Sally" class="cta-sally">
+      <img src="/sally-head.png" alt="Sally" class="cta-sally">
       <h3>Want the full experience?</h3>
       <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
       <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#e8503a">refactor</span> &middot; <span style="color:#e8503a">brainstorm</span> &middot; <span style="color:#e8503a">frontend review</span> &middot; <span style="color:#e8503a">marketing review</span> &middot; <span style="color:#e8503a">explain</span> &middot; <span style="color:#e8503a">PR review</span></p>
