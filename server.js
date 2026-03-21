@@ -5,6 +5,14 @@ import { randomUUID } from "node:crypto";
 const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
 const PIXEL_SALLY = readFileSync(new URL("./pixelsally-cursedqueen.png", import.meta.url));
 const SALLY_HEAD = readFileSync(new URL("./sally-head.png", import.meta.url));
+const TOOL_IMAGES = {
+  "brainstorm": readFileSync(new URL("./FULL-SUITE-BRAINSTORM.png", import.meta.url)),
+  "explain": readFileSync(new URL("./FULL-SUITE-EXPLAIN.png", import.meta.url)),
+  "refactor": readFileSync(new URL("./FULL-SUITE-REFACTOR.png", import.meta.url)),
+  "frontend": readFileSync(new URL("./FULL-SUITE-FRONTENDREVIEW.png", import.meta.url)),
+  "marketing": readFileSync(new URL("./FULL-SUITE-MARKETINGREVIEW.png", import.meta.url)),
+  "prreview": readFileSync(new URL("./FULL-SUITE-PRREVIEW.png", import.meta.url)),
+};
 
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
@@ -67,6 +75,17 @@ const server = createServer(async (req, res) => {
     res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
     res.end(SALLY_HEAD);
     return;
+  }
+
+  // Serve tool images
+  if (req.method === "GET" && req.url?.startsWith("/tool-")) {
+    const name = req.url.slice(6, -4); // strip /tool- and .png
+    const img = TOOL_IMAGES[name];
+    if (img) {
+      res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
+      res.end(img);
+      return;
+    }
   }
 
   // Serve HTML
@@ -418,6 +437,48 @@ const HTML = `<!DOCTYPE html>
     }
     .cta a:hover { background: #e8503a22; }
 
+    /* Tool grid */
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1rem 0;
+    }
+    .tool-card {
+      background: #0a0a0a;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .tool-card:hover { border-color: #e8503a44; }
+    .tool-card img {
+      width: 100%;
+      display: block;
+    }
+    .tool-card-body {
+      padding: 0.6rem 0.75rem;
+    }
+    .tool-card-name {
+      color: #e8503a;
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-bottom: 0.2rem;
+    }
+    .tool-card-cmd {
+      color: #666;
+      font-size: 0.65rem;
+      margin-bottom: 0.3rem;
+    }
+    .tool-card-desc {
+      color: #888;
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+    @media (max-width: 600px) {
+      .tool-grid { grid-template-columns: 1fr; }
+    }
+
     .footer {
       text-align: center;
       margin-top: 2rem;
@@ -506,7 +567,56 @@ const HTML = `<!DOCTYPE html>
       <img src="/sally-head.png" alt="Sally" class="cta-sally">
       <h3>Want the full experience?</h3>
       <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
-      <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#e8503a">refactor</span> &middot; <span style="color:#e8503a">brainstorm</span> &middot; <span style="color:#e8503a">frontend review</span> &middot; <span style="color:#e8503a">marketing review</span> &middot; <span style="color:#e8503a">explain</span> &middot; <span style="color:#e8503a">PR review</span></p>
+      <div class="tool-grid">
+        <div class="tool-card">
+          <img src="/tool-explain.png" alt="Explain">
+          <div class="tool-card-body">
+            <div class="tool-card-name">Explain</div>
+            <div class="tool-card-cmd">sally explain [file]</div>
+            <div class="tool-card-desc">Sally breaks down your code — cynical but accurate.</div>
+          </div>
+        </div>
+        <div class="tool-card">
+          <img src="/tool-refactor.png" alt="Refactor">
+          <div class="tool-card-body">
+            <div class="tool-card-name">Refactor</div>
+            <div class="tool-card-cmd">sally refactor [file]</div>
+            <div class="tool-card-desc">Concrete refactoring with before/after code.</div>
+          </div>
+        </div>
+        <div class="tool-card">
+          <img src="/tool-prreview.png" alt="PR Review">
+          <div class="tool-card-body">
+            <div class="tool-card-name">PR Review</div>
+            <div class="tool-card-cmd">sally review-pr [pr]</div>
+            <div class="tool-card-desc">Reviews your PR diff with devastating precision.</div>
+          </div>
+        </div>
+        <div class="tool-card">
+          <img src="/tool-brainstorm.png" alt="Brainstorm">
+          <div class="tool-card-body">
+            <div class="tool-card-name">Brainstorm</div>
+            <div class="tool-card-cmd">sally brainstorm ["idea"]</div>
+            <div class="tool-card-desc">Cynical but valuable feedback on your ideas.</div>
+          </div>
+        </div>
+        <div class="tool-card">
+          <img src="/tool-frontend.png" alt="Frontend Review">
+          <div class="tool-card-body">
+            <div class="tool-card-name">Frontend Review</div>
+            <div class="tool-card-cmd">sally frontend [file]</div>
+            <div class="tool-card-desc">Roasts your UI code and design decisions.</div>
+          </div>
+        </div>
+        <div class="tool-card">
+          <img src="/tool-marketing.png" alt="Marketing Review">
+          <div class="tool-card-body">
+            <div class="tool-card-name">Marketing Review</div>
+            <div class="tool-card-cmd">sally marketing ["copy"]</div>
+            <div class="tool-card-desc">Reviews your copy with zero mercy.</div>
+          </div>
+        </div>
+      </div>
       <a href="https://github.com/w1ckedxt/cynicalsally-cli" target="_blank">Get Sally CLI &rarr;</a>
     </div>
 
