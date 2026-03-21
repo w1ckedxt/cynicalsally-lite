@@ -418,11 +418,12 @@ const HTML = `<!DOCTYPE html>
       color: #444;
       font-size: 0.7rem;
     }
-    .footer-sally {
-      width: 64px;
+    .cta-sally {
+      width: 48px;
       height: auto;
       margin-bottom: 0.5rem;
       image-rendering: pixelated;
+      opacity: 0.9;
     }
     .footer a { color: #555; text-decoration: none; }
     .footer a:hover { color: #e8503a; }
@@ -495,6 +496,7 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="cta">
+      <img src="/pixelsally-cursedqueen.png" alt="Sally" class="cta-sally">
       <h3>Want the full experience?</h3>
       <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
       <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#e8503a">refactor</span> &middot; <span style="color:#e8503a">brainstorm</span> &middot; <span style="color:#e8503a">frontend review</span> &middot; <span style="color:#e8503a">marketing review</span> &middot; <span style="color:#e8503a">explain</span> &middot; <span style="color:#e8503a">PR review</span></p>
@@ -502,9 +504,6 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <img src="/pixelsally-cursedqueen.png" alt="Sally" class="footer-sally">
-      <p style="margin-bottom:0.2rem"><strong style="color:#e8503a">Cynical Sally</strong> &mdash; brutally honest code reviews</p>
-      <p style="margin-bottom:1rem">The senior engineer your code hoped it'd never meet.</p>
       <p>Powered by <a href="https://cynicalsally.com" target="_blank">CynicalSally</a> &middot; Running on <a href="https://render.com" target="_blank">Render</a></p>
     </div>
   </div>
