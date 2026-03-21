@@ -1,5 +1,8 @@
 import { createServer } from "node:http";
+import { readFileSync } from "node:fs";
 import { randomUUID } from "node:crypto";
+
+const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
 
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
@@ -40,6 +43,13 @@ const server = createServer(async (req, res) => {
   if (req.method === "GET" && req.url === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ status: "ok" }));
+    return;
+  }
+
+  // Serve banner image
+  if (req.method === "GET" && req.url === "/sally-banner.png") {
+    res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
+    res.end(BANNER);
     return;
   }
 
@@ -126,6 +136,18 @@ const HTML = `<!DOCTYPE html>
       max-width: 800px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
+    }
+
+    /* Hero banner */
+    .hero {
+      max-width: 800px;
+      margin: 0 auto 0;
+      padding: 2rem 1.5rem 0;
+    }
+    .hero-img {
+      width: 100%;
+      border-radius: 10px;
+      display: block;
     }
 
     /* Header */
@@ -398,6 +420,9 @@ const HTML = `<!DOCTYPE html>
   </style>
 </head>
 <body>
+  <div class="hero">
+    <img src="/sally-banner.png" alt="Sally — AI Code Reviewer" class="hero-img">
+  </div>
   <div class="container">
     <div class="header">
       <h1>&#9760; Sally <span>Lite</span></h1>

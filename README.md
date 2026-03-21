@@ -1,5 +1,7 @@
 # Sally Lite
 
+![Sally — AI Code Reviewer](sally-banner.png)
+
 **AI code reviewer with zero filter.** Deploy on Render in one click, roast your code from the terminal.
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/nicktron/cynicalsally-lite)
