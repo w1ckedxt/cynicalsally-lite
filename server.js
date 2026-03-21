@@ -459,7 +459,7 @@ const HTML = `<!DOCTYPE html>
       <h3>Want the full experience?</h3>
       <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
       <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#d946ef">refactor</span> &middot; <span style="color:#d946ef">brainstorm</span> &middot; <span style="color:#d946ef">frontend review</span> &middot; <span style="color:#d946ef">marketing review</span> &middot; <span style="color:#d946ef">explain</span> &middot; <span style="color:#d946ef">PR review</span></p>
-      <a href="https://cynicalsally.com/en/fullsuite" target="_blank">Get Sally CLI &rarr;</a>
+      <a href="https://github.com/w1ckedxt/cynicalsally-cli" target="_blank">Get Sally CLI &rarr;</a>
     </div>
 
     <div class="footer">
