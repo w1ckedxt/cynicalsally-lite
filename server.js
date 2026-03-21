@@ -455,48 +455,78 @@ const HTML = `<!DOCTYPE html>
     .tool-grid {
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
-      margin: 1.5rem 0;
+      gap: 1.25rem;
+      margin: 2rem 0;
     }
     .tool-card {
       display: flex;
-      align-items: center;
-      gap: 1rem;
+      align-items: stretch;
+      gap: 0;
       background: #111;
       border: 1px solid #2a2a2a;
-      border-radius: 8px;
-      padding: 0.75rem;
-      transition: border-color 0.2s;
+      border-radius: 12px;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.2s;
     }
-    .tool-card:hover { border-color: #e8503a33; }
+    .tool-card:hover {
+      border-color: #e8503a55;
+      transform: translateY(-2px);
+    }
     .tool-card img {
-      width: 180px;
+      width: 200px;
       height: auto;
-      border-radius: 6px;
+      object-fit: cover;
       flex-shrink: 0;
     }
-    .tool-card-body { flex: 1; }
-    .tool-card-top { margin-bottom: 0.2rem; }
+    .tool-card-body {
+      flex: 1;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .tool-card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
+    .tool-card-num {
+      color: #e8503a;
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: #e8503a18;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      letter-spacing: 0.02em;
+    }
     .tool-card-name {
       color: #e8503a;
-      font-weight: 600;
-      font-size: 0.9rem;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: -0.01em;
     }
     .tool-card-cmd {
-      display: block;
-      color: #666;
+      display: inline-block;
+      color: #22c55e;
       font-size: 0.7rem;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.6rem;
+      background: #22c55e0d;
+      padding: 0.2rem 0.5rem;
+      border-radius: 3px;
+      width: fit-content;
     }
     .tool-card-desc {
       color: #bbb;
-      font-size: 0.75rem;
-      line-height: 1.6;
+      font-size: 0.78rem;
+      line-height: 1.65;
       text-align: left;
     }
     @media (max-width: 600px) {
-      .tool-card { flex-direction: column; text-align: center; }
-      .tool-card img { width: 140px; height: 140px; }
+      .tool-card { flex-direction: column; }
+      .tool-card img { width: 100%; height: 200px; }
+      .tool-card-body { text-align: center; }
+      .tool-card-cmd { margin: 0 auto 0.6rem; }
     }
 
     .footer {
@@ -594,42 +624,48 @@ const HTML = `<!DOCTYPE html>
         <div class="tool-card">
           <img src="/tool-explain.png" alt="Explain">
           <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-name">Explain</span> <span class="tool-card-cmd">sally explain [file]</span></div>
+            <div class="tool-card-top"><span class="tool-card-num">#1</span> <span class="tool-card-name">Explain</span></div>
+            <div class="tool-card-cmd">sally explain [file]</div>
             <div class="tool-card-desc">I read the spaghetti someone left in your codebase and translate it into plain English &mdash; no judgment on who wrote it, just the cold, clear truth of what it actually does.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-refactor.png" alt="Refactor">
           <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-name">Refactor</span> <span class="tool-card-cmd">sally refactor [file]</span></div>
+            <div class="tool-card-top"><span class="tool-card-num">#2</span> <span class="tool-card-name">Refactor</span></div>
+            <div class="tool-card-cmd">sally refactor [file]</div>
             <div class="tool-card-desc">I don't tell you your code 'could be cleaner' and leave you guessing &mdash; I show you the before, I show you the after, and I explain why one of them is going to haunt your 3am on-call rotation.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-prreview.png" alt="PR Review">
           <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-name">PR Review</span> <span class="tool-card-cmd">sally review-pr [pr]</span></div>
+            <div class="tool-card-top"><span class="tool-card-num">#3</span> <span class="tool-card-name">PR Review</span></div>
+            <div class="tool-card-cmd">sally review-pr [pr]</div>
             <div class="tool-card-desc">I review your PR like a senior engineer who has time, opinions, and absolutely no reason to be polite about that nested ternary you snuck in on line 47.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-brainstorm.png" alt="Brainstorm">
           <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-name">Brainstorm</span> <span class="tool-card-cmd">sally brainstorm ["idea"]</span></div>
+            <div class="tool-card-top"><span class="tool-card-num">#4</span> <span class="tool-card-name">Brainstorm</span></div>
+            <div class="tool-card-cmd">sally brainstorm ["idea"]</div>
             <div class="tool-card-desc">Pitch me your architecture idea and I'll tell you the three ways it falls apart at scale before you've written a single line of code &mdash; consider it cheaper than a post-mortem.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-frontend.png" alt="Frontend Review">
           <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-name">Frontend Review</span> <span class="tool-card-cmd">sally frontend [file]</span></div>
+            <div class="tool-card-top"><span class="tool-card-num">#5</span> <span class="tool-card-name">Frontend Review</span></div>
+            <div class="tool-card-cmd">sally frontend [file]</div>
             <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke, why your z-index is load-bearing, and why no, that is not how CSS specificity works.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-marketing.png" alt="Marketing Review">
           <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-name">Marketing Review</span> <span class="tool-card-cmd">sally marketing ["copy"]</span></div>
+            <div class="tool-card-top"><span class="tool-card-num">#6</span> <span class="tool-card-name">Marketing Review</span></div>
+            <div class="tool-card-cmd">sally marketing ["copy"]</div>
             <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
           </div>
         </div>
