@@ -419,11 +419,10 @@ const HTML = `<!DOCTYPE html>
       font-size: 0.7rem;
     }
     .cta-sally {
-      width: 48px;
+      width: 120px;
       height: auto;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
       image-rendering: pixelated;
-      opacity: 0.9;
     }
     .footer a { color: #555; text-decoration: none; }
     .footer a:hover { color: #e8503a; }
