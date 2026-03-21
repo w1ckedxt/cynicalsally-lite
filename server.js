@@ -143,6 +143,31 @@ const HTML = `<!DOCTYPE html>
       color: #666;
       font-size: 0.85rem;
     }
+    .header .tagline {
+      color: #555;
+      font-size: 0.75rem;
+      font-style: italic;
+      margin-top: 0.4rem;
+    }
+
+    /* Quota badge */
+    .quota-bar {
+      display: none;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+    .quota-bar.visible { display: flex; }
+    .quota-badge {
+      padding: 0.3rem 0.8rem;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: #888;
+    }
+    .quota-badge .count { color: #d946ef; font-weight: 600; }
+    .quota-badge.exhausted { border-color: #ef444444; }
+    .quota-badge.exhausted .count { color: #ef4444; }
 
     /* Editor */
     .editor-wrap {
@@ -377,6 +402,11 @@ const HTML = `<!DOCTYPE html>
     <div class="header">
       <h1>&#9760; Sally <span>Lite</span></h1>
       <p>Paste your code. Get roasted. No mercy.</p>
+      <p class="tagline">"Because 'You're absolutely right' is probably absolutely wrong."</p>
+    </div>
+
+    <div class="quota-bar" id="quotaBar">
+      <span class="quota-badge" id="quotaBadge"><span class="count" id="quotaCount"></span></span>
     </div>
 
     <div class="editor-wrap">
@@ -427,8 +457,9 @@ const HTML = `<!DOCTYPE html>
 
     <div class="cta">
       <h3>Want the full experience?</h3>
-      <p>Sally Lite gives you 3 reviews/day. For unlimited reviews, git diff support, CI integration, and Full Truth deep analysis &mdash; check out the full CLI.</p>
-      <a href="https://cynicalsally.com/cli" target="_blank">Get Sally CLI &rarr;</a>
+      <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
+      <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#d946ef">refactor</span> &middot; <span style="color:#d946ef">brainstorm</span> &middot; <span style="color:#d946ef">frontend review</span> &middot; <span style="color:#d946ef">marketing review</span> &middot; <span style="color:#d946ef">explain</span> &middot; <span style="color:#d946ef">PR review</span></p>
+      <a href="https://cynicalsally.com/en/fullsuite" target="_blank">Get Sally CLI &rarr;</a>
     </div>
 
     <div class="footer">
@@ -469,6 +500,7 @@ const HTML = `<!DOCTYPE html>
         }
 
         renderResult(data);
+        showQuota(data.quota);
         results.className = 'results visible';
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
         status.textContent = '';
@@ -525,6 +557,19 @@ const HTML = `<!DOCTYPE html>
       // Bright side + sneer
       document.getElementById('brightSide').textContent = voice.bright_side || '';
       document.getElementById('hardestSneer').textContent = voice.hardest_sneer || '';
+    }
+
+    function showQuota(quota) {
+      const bar = document.getElementById('quotaBar');
+      const badge = document.getElementById('quotaBadge');
+      const count = document.getElementById('quotaCount');
+      if (!quota || quota.remaining === undefined) return;
+
+      const remaining = Math.max(0, quota.remaining);
+      const limit = quota.limit;
+      count.textContent = remaining + '/' + limit + ' reviews left today';
+      badge.className = remaining === 0 ? 'quota-badge exhausted' : 'quota-badge';
+      bar.className = 'quota-bar visible';
     }
 
     function escapeHtml(text) {
