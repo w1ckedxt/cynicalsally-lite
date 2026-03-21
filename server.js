@@ -430,100 +430,134 @@ const HTML = `<!DOCTYPE html>
     /* CTA intro */
     .cta-intro {
       text-align: center;
-      margin-top: 2.5rem;
+      margin-top: 3rem;
       padding: 2rem 1.5rem;
       background: linear-gradient(135deg, #e8503a11, #c4403011);
       border: 1px solid #e8503a33;
       border-radius: 12px;
     }
-    .cta-intro h3 { color: #e8503a; margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .cta-intro h3 { color: #e8503a; margin-bottom: 0.5rem; font-size: 1.2rem; }
     .cta-intro p { color: #888; font-size: 0.85rem; line-height: 1.5; }
 
     /* Suite header */
     .suite-header {
       text-align: center;
-      margin: 2.5rem 0 1.5rem;
+      margin: 3rem 0 2rem;
     }
     .suite-header h2 {
       color: #fff;
-      font-size: 1.5rem;
+      font-size: 1.6rem;
       font-weight: 700;
-      margin-bottom: 0.3rem;
+      margin-bottom: 0.4rem;
     }
     .suite-header p {
-      color: #666;
+      color: #555;
       font-size: 0.85rem;
     }
 
-    /* Tool grid — single column, FULL WIDTH, DRAMATIC */
+    /* Bento grid — asymmetric, editorial, premium */
     .tool-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      margin-bottom: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-auto-rows: auto;
+      gap: 1rem;
+      margin-bottom: 2.5rem;
     }
     .tool-card {
-      background: #111;
-      border: 1px solid #2a2a2a;
-      border-radius: 14px;
+      position: relative;
+      background: #0f0f0f;
+      border: 1px solid rgba(232, 80, 58, 0.15);
+      border-radius: 12px;
       overflow: hidden;
-      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 30px 4px rgba(232, 80, 58, 0.08);
     }
     .tool-card:hover {
-      border-color: #e8503a66;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(232, 80, 58, 0.1);
+      border-color: rgba(232, 80, 58, 0.6);
+      transform: scale(1.03);
+      box-shadow: 0 0 50px 10px rgba(232, 80, 58, 0.2);
+      z-index: 2;
     }
-    .tool-card img {
+    .tool-card.hero { grid-column: span 2; }
+    .tool-card-img {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+    .tool-card.hero .tool-card-img {
+      aspect-ratio: 2 / 1;
+    }
+    .tool-card-img img {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 80%;
       display: block;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .tool-card:hover .tool-card-img img {
+      transform: scale(1.05);
+    }
+    .tool-label {
+      display: block;
+      text-align: center;
+      padding: 0.5rem 0;
+      font-family: inherit;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #e8503a;
+      text-shadow: 0 0 12px rgba(232, 80, 58, 0.6);
+      background: #0a0a0a;
     }
     .tool-card-body {
-      padding: 1.25rem 1.5rem 1.5rem;
+      padding: 0.85rem 1rem 1rem;
     }
     .tool-card-top {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.4rem;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
     }
     .tool-card-num {
       color: #e8503a;
-      font-size: 0.7rem;
+      font-size: 0.55rem;
       font-weight: 800;
       background: #e8503a1a;
       border: 1px solid #e8503a33;
-      padding: 0.2rem 0.5rem;
-      border-radius: 4px;
+      padding: 0.1rem 0.35rem;
+      border-radius: 3px;
       letter-spacing: 0.05em;
     }
     .tool-card-name {
       color: #fff;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 0.95rem;
     }
     .tool-card-cmd {
       display: inline-block;
       color: #22c55e;
-      font-size: 0.75rem;
+      font-size: 0.6rem;
       font-weight: 500;
-      margin-bottom: 0.6rem;
-      background: #22c55e0f;
+      margin-bottom: 0.4rem;
+      background: #22c55e0d;
       border: 1px solid #22c55e22;
-      padding: 0.25rem 0.6rem;
-      border-radius: 4px;
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
     }
     .tool-card-desc {
-      color: #bbb;
-      font-size: 0.85rem;
-      line-height: 1.7;
+      color: #999;
+      font-size: 0.7rem;
+      line-height: 1.6;
     }
+    .tool-card.hero .tool-card-name { font-size: 1.15rem; }
+    .tool-card.hero .tool-card-desc { font-size: 0.78rem; }
+    .tool-card.hero .tool-card-cmd { font-size: 0.68rem; }
 
     /* CTA bottom button */
     .cta-bottom {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
     .cta-bottom a {
       display: inline-block;
@@ -536,9 +570,19 @@ const HTML = `<!DOCTYPE html>
       text-decoration: none;
       font-family: inherit;
       font-size: 1rem;
-      transition: opacity 0.2s, transform 0.2s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 30px rgba(232, 80, 58, 0.3);
     }
-    .cta-bottom a:hover { opacity: 0.9; transform: translateY(-2px); }
+    .cta-bottom a:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(232, 80, 58, 0.5);
+    }
+
+    @media (max-width: 600px) {
+      .tool-grid { grid-template-columns: 1fr; }
+      .tool-card.hero { grid-column: span 1; }
+      .tool-card.hero .tool-card-img { aspect-ratio: 1 / 1; }
+    }
 
     .footer {
       text-align: center;
@@ -639,48 +683,54 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="tool-grid">
-      <div class="tool-card">
-        <img src="/tool-explain.png" alt="Explain">
+      <div class="tool-card hero">
+        <div class="tool-card-img"><img src="/tool-prreview.png" alt="Sally at her desk, gold nameplate reading PR REVIEW" loading="lazy"></div>
+        <span class="tool-label">PR Review</span>
         <div class="tool-card-body">
-          <div class="tool-card-top"><span class="tool-card-num">#1</span> <span class="tool-card-name">Explain</span></div>
-          <div class="tool-card-cmd">$ sally explain [file]</div>
-          <div class="tool-card-desc">I read the spaghetti someone left in your codebase and translate it into plain English &mdash; no judgment on who wrote it, just the cold, clear truth of what it actually does.</div>
-        </div>
-      </div>
-      <div class="tool-card">
-        <img src="/tool-refactor.png" alt="Refactor">
-        <div class="tool-card-body">
-          <div class="tool-card-top"><span class="tool-card-num">#2</span> <span class="tool-card-name">Refactor</span></div>
-          <div class="tool-card-cmd">$ sally refactor [file]</div>
-          <div class="tool-card-desc">I don't tell you your code 'could be cleaner' and leave you guessing &mdash; I show you the before, I show you the after, and I explain why one of them is going to haunt your 3am on-call rotation.</div>
-        </div>
-      </div>
-      <div class="tool-card">
-        <img src="/tool-prreview.png" alt="PR Review">
-        <div class="tool-card-body">
-          <div class="tool-card-top"><span class="tool-card-num">#3</span> <span class="tool-card-name">PR Review</span></div>
+          <div class="tool-card-top"><span class="tool-card-num">#1</span> <span class="tool-card-name">PR Review</span></div>
           <div class="tool-card-cmd">$ sally review-pr [pr]</div>
           <div class="tool-card-desc">I review your PR like a senior engineer who has time, opinions, and absolutely no reason to be polite about that nested ternary you snuck in on line 47.</div>
         </div>
       </div>
       <div class="tool-card">
-        <img src="/tool-brainstorm.png" alt="Brainstorm">
+        <div class="tool-card-img"><img src="/tool-explain.png" alt="Sally at her desk, gold nameplate reading EXPLAIN" loading="lazy"></div>
+        <span class="tool-label">Explain</span>
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#2</span> <span class="tool-card-name">Explain</span></div>
+          <div class="tool-card-cmd">$ sally explain [file]</div>
+          <div class="tool-card-desc">I read the spaghetti someone left in your codebase and translate it into plain English &mdash; just the cold, clear truth of what it actually does.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-img"><img src="/tool-refactor.png" alt="Sally at her desk, gold nameplate reading REFACTOR" loading="lazy"></div>
+        <span class="tool-label">Refactor</span>
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#3</span> <span class="tool-card-name">Refactor</span></div>
+          <div class="tool-card-cmd">$ sally refactor [file]</div>
+          <div class="tool-card-desc">I show you the before, I show you the after, and I explain why one of them is going to haunt your 3am on-call rotation.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-img"><img src="/tool-brainstorm.png" alt="Sally at her desk, gold nameplate reading BRAINSTORM" loading="lazy"></div>
+        <span class="tool-label">Brainstorm</span>
         <div class="tool-card-body">
           <div class="tool-card-top"><span class="tool-card-num">#4</span> <span class="tool-card-name">Brainstorm</span></div>
           <div class="tool-card-cmd">$ sally brainstorm ["idea"]</div>
-          <div class="tool-card-desc">Pitch me your architecture idea and I'll tell you the three ways it falls apart at scale before you've written a single line of code &mdash; consider it cheaper than a post-mortem.</div>
+          <div class="tool-card-desc">Pitch me your architecture idea and I'll tell you the three ways it falls apart at scale &mdash; consider it cheaper than a post-mortem.</div>
         </div>
       </div>
       <div class="tool-card">
-        <img src="/tool-frontend.png" alt="Frontend Review">
+        <div class="tool-card-img"><img src="/tool-frontend.png" alt="Sally at her desk, gold nameplate reading FRONTEND" loading="lazy"></div>
+        <span class="tool-label">Frontend</span>
         <div class="tool-card-body">
           <div class="tool-card-top"><span class="tool-card-num">#5</span> <span class="tool-card-name">Frontend Review</span></div>
           <div class="tool-card-cmd">$ sally frontend [file]</div>
-          <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke, why your z-index is load-bearing, and why no, that is not how CSS specificity works.</div>
+          <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke and why your z-index is load-bearing.</div>
         </div>
       </div>
       <div class="tool-card">
-        <img src="/tool-marketing.png" alt="Marketing Review">
+        <div class="tool-card-img"><img src="/tool-marketing.png" alt="Sally at her desk, gold nameplate reading MARKETING" loading="lazy"></div>
+        <span class="tool-label">Marketing</span>
         <div class="tool-card-body">
           <div class="tool-card-top"><span class="tool-card-num">#6</span> <span class="tool-card-name">Marketing Review</span></div>
           <div class="tool-card-cmd">$ sally marketing ["copy"]</div>
