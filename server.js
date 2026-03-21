@@ -439,52 +439,47 @@ const HTML = `<!DOCTYPE html>
 
     /* Tool grid */
     .tool-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0.6rem;
-      margin: 1.25rem 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin: 1.5rem 0;
     }
     .tool-card {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      background: #0a0a0a;
+      background: #111;
       border: 1px solid #2a2a2a;
       border-radius: 8px;
-      padding: 0.6rem;
+      padding: 0.75rem;
       transition: border-color 0.2s;
     }
-    .tool-card:hover { border-color: #e8503a44; }
+    .tool-card:hover { border-color: #e8503a33; }
     .tool-card img {
-      width: 64px;
-      height: 64px;
-      border-radius: 6px;
+      width: 100%;
+      height: 100px;
       object-fit: cover;
-      flex-shrink: 0;
+      object-position: center 30%;
+      border-radius: 5px;
+      margin-bottom: 0.6rem;
     }
-    .tool-card-body {
-      flex: 1;
-      min-width: 0;
-    }
-    .tool-card-top {
-      display: flex;
-      align-items: baseline;
-      gap: 0.5rem;
-      margin-bottom: 0.15rem;
-    }
+    .tool-card-body {}
+    .tool-card-top { margin-bottom: 0.3rem; }
     .tool-card-name {
       color: #e8503a;
       font-weight: 600;
       font-size: 0.8rem;
     }
     .tool-card-cmd {
+      display: block;
       color: #555;
       font-size: 0.6rem;
+      margin-bottom: 0.35rem;
     }
     .tool-card-desc {
-      color: #999;
+      color: #888;
       font-size: 0.7rem;
-      line-height: 1.4;
+      line-height: 1.5;
+    }
+    @media (max-width: 600px) {
+      .tool-grid { grid-template-columns: 1fr; }
     }
 
     .footer {
@@ -580,42 +575,42 @@ const HTML = `<!DOCTYPE html>
           <img src="/tool-explain.png" alt="Explain">
           <div class="tool-card-body">
             <div class="tool-card-top"><span class="tool-card-name">Explain</span> <span class="tool-card-cmd">sally explain [file]</span></div>
-            <div class="tool-card-desc">Point Sally at any file and she'll break it down function by function. What it does, why it's structured that way, and what's quietly wrong with it.</div>
+            <div class="tool-card-desc">I read the spaghetti someone left in your codebase and translate it into plain English &mdash; no judgment on who wrote it, just the cold, clear truth of what it actually does.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-refactor.png" alt="Refactor">
           <div class="tool-card-body">
             <div class="tool-card-top"><span class="tool-card-name">Refactor</span> <span class="tool-card-cmd">sally refactor [file]</span></div>
-            <div class="tool-card-desc">Gets you concrete before/after code. No vague suggestions &mdash; actual rewrites with priority ranking and pattern names.</div>
+            <div class="tool-card-desc">I don't tell you your code 'could be cleaner' and leave you guessing &mdash; I show you the before, I show you the after, and I explain why one of them is going to haunt your 3am on-call rotation.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-prreview.png" alt="PR Review">
           <div class="tool-card-body">
             <div class="tool-card-top"><span class="tool-card-name">PR Review</span> <span class="tool-card-cmd">sally review-pr [pr]</span></div>
-            <div class="tool-card-desc">Feed her a PR number or pipe a git diff. She'll review every changed line with the precision of a senior engineer who blocks merges for fun.</div>
+            <div class="tool-card-desc">I review your PR like a senior engineer who has time, opinions, and absolutely no reason to be polite about that nested ternary you snuck in on line 47.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-brainstorm.png" alt="Brainstorm">
           <div class="tool-card-body">
             <div class="tool-card-top"><span class="tool-card-name">Brainstorm</span> <span class="tool-card-cmd">sally brainstorm ["idea"]</span></div>
-            <div class="tool-card-desc">Describe your idea, architecture, or approach. Sally pressure-tests it and tells you what'll break before you build it.</div>
+            <div class="tool-card-desc">Pitch me your architecture idea and I'll tell you the three ways it falls apart at scale before you've written a single line of code &mdash; consider it cheaper than a post-mortem.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-frontend.png" alt="Frontend Review">
           <div class="tool-card-body">
             <div class="tool-card-top"><span class="tool-card-name">Frontend Review</span> <span class="tool-card-cmd">sally frontend [file]</span></div>
-            <div class="tool-card-desc">Components, hooks, CSS, accessibility &mdash; Sally reviews your frontend code and roasts every design decision you thought was clever.</div>
+            <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke, why your z-index is load-bearing, and why no, that is not how CSS specificity works.</div>
           </div>
         </div>
         <div class="tool-card">
           <img src="/tool-marketing.png" alt="Marketing Review">
           <div class="tool-card-body">
             <div class="tool-card-top"><span class="tool-card-name">Marketing Review</span> <span class="tool-card-cmd">sally marketing ["copy"]</span></div>
-            <div class="tool-card-desc">Landing page copy, README text, product descriptions. Sally rewrites your marketing with the honesty your users wish you had.</div>
+            <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
           </div>
         </div>
       </div>
