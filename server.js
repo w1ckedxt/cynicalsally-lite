@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
 const MAX_CODE_LENGTH = 500 * 1024; // 500KB max paste
+const INSTANCE_DEVICE_ID = `lite-${randomUUID()}`; // One ID per deployed instance — quota tracks on this
 
 /**
  * Sally Lite Web — Simple web UI that proxies code reviews to the CynicalSally backend.
@@ -68,7 +69,6 @@ const server = createServer(async (req, res) => {
       }
 
       const files = splitCodeToFiles(code, filename);
-      const deviceId = `lite-${randomUUID()}`;
 
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
         method: "POST",
@@ -76,7 +76,7 @@ const server = createServer(async (req, res) => {
         body: JSON.stringify({
           files,
           mode: "quick",
-          deviceId,
+          deviceId: INSTANCE_DEVICE_ID,
           lang: lang || "en",
           tone: tone || "cynical",
         }),
@@ -101,6 +101,7 @@ const server = createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`Sally Lite running on port ${PORT}`);
   console.log(`Backend: ${SALLY_API_URL}`);
+  console.log(`Instance ID: ${INSTANCE_DEVICE_ID}`);
 });
 
 // --- HTML ---
