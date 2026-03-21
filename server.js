@@ -453,12 +453,13 @@ const HTML = `<!DOCTYPE html>
     }
     .tool-card:hover { border-color: #e8503a33; }
     .tool-card img {
-      width: 100%;
-      height: 100px;
+      width: 80px;
+      height: 80px;
       object-fit: cover;
-      object-position: center 30%;
-      border-radius: 5px;
-      margin-bottom: 0.6rem;
+      object-position: center 40%;
+      border-radius: 6px;
+      margin: 0 auto 0.5rem;
+      display: block;
     }
     .tool-card-body {}
     .tool-card-top { margin-bottom: 0.3rem; }
