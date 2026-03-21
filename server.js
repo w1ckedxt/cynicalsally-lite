@@ -135,7 +135,7 @@ const HTML = `<!DOCTYPE html>
     }
     .header h1 {
       font-size: 1.8rem;
-      color: #d946ef;
+      color: #f59e0b;
       margin-bottom: 0.3rem;
     }
     .header h1 span { color: #e0e0e0; }
@@ -165,7 +165,7 @@ const HTML = `<!DOCTYPE html>
       font-size: 0.75rem;
       color: #888;
     }
-    .quota-badge .count { color: #d946ef; font-weight: 600; }
+    .quota-badge .count { color: #f59e0b; font-weight: 600; }
     .quota-badge.exhausted { border-color: #ef444444; }
     .quota-badge.exhausted .count { color: #ef4444; }
 
@@ -215,7 +215,7 @@ const HTML = `<!DOCTYPE html>
       outline: none;
       tab-size: 2;
     }
-    textarea:focus { border-color: #d946ef44; }
+    textarea:focus { border-color: #f59e0b44; }
     textarea::placeholder { color: #333; }
 
     /* Button */
@@ -227,7 +227,7 @@ const HTML = `<!DOCTYPE html>
     }
     .btn-roast {
       padding: 0.7rem 2rem;
-      background: linear-gradient(135deg, #d946ef, #a855f7);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       border: none;
       border-radius: 6px;
       color: white;
@@ -259,7 +259,7 @@ const HTML = `<!DOCTYPE html>
       margin-bottom: 1rem;
     }
     .result-header h2 {
-      color: #d946ef;
+      color: #f59e0b;
       font-size: 1.1rem;
     }
     .score-badge {
@@ -282,7 +282,7 @@ const HTML = `<!DOCTYPE html>
     .score-bar-fill {
       height: 100%;
       border-radius: 3px;
-      background: linear-gradient(90deg, #d946ef, #a855f7);
+      background: linear-gradient(90deg, #f59e0b, #d97706);
       transition: width 0.6s ease-out;
     }
 
@@ -298,7 +298,7 @@ const HTML = `<!DOCTYPE html>
     }
 
     .section-title {
-      color: #d946ef;
+      color: #f59e0b;
       font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -359,26 +359,26 @@ const HTML = `<!DOCTYPE html>
     .cta {
       margin-top: 2.5rem;
       padding: 1.5rem;
-      background: linear-gradient(135deg, #d946ef11, #a855f711);
-      border: 1px solid #d946ef33;
+      background: linear-gradient(135deg, #f59e0b11, #d9770611);
+      border: 1px solid #f59e0b33;
       border-radius: 8px;
       text-align: center;
     }
-    .cta h3 { color: #d946ef; margin-bottom: 0.5rem; font-size: 1rem; }
+    .cta h3 { color: #f59e0b; margin-bottom: 0.5rem; font-size: 1rem; }
     .cta p { color: #888; font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.5; }
     .cta a {
       display: inline-block;
       padding: 0.5rem 1.5rem;
       background: transparent;
-      border: 1px solid #d946ef;
+      border: 1px solid #f59e0b;
       border-radius: 6px;
-      color: #d946ef;
+      color: #f59e0b;
       text-decoration: none;
       font-family: inherit;
       font-size: 0.8rem;
       transition: all 0.2s;
     }
-    .cta a:hover { background: #d946ef22; }
+    .cta a:hover { background: #f59e0b22; }
 
     .footer {
       text-align: center;
@@ -389,7 +389,7 @@ const HTML = `<!DOCTYPE html>
       font-size: 0.7rem;
     }
     .footer a { color: #555; text-decoration: none; }
-    .footer a:hover { color: #d946ef; }
+    .footer a:hover { color: #f59e0b; }
 
     @media (max-width: 600px) {
       .container { padding: 1rem; }
@@ -458,7 +458,7 @@ const HTML = `<!DOCTYPE html>
     <div class="cta">
       <h3>Want the full experience?</h3>
       <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
-      <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#d946ef">refactor</span> &middot; <span style="color:#d946ef">brainstorm</span> &middot; <span style="color:#d946ef">frontend review</span> &middot; <span style="color:#d946ef">marketing review</span> &middot; <span style="color:#d946ef">explain</span> &middot; <span style="color:#d946ef">PR review</span></p>
+      <p style="color:#666;font-size:0.75rem;margin-bottom:1rem;line-height:1.6">Full Suite adds: <span style="color:#f59e0b">refactor</span> &middot; <span style="color:#f59e0b">brainstorm</span> &middot; <span style="color:#f59e0b">frontend review</span> &middot; <span style="color:#f59e0b">marketing review</span> &middot; <span style="color:#f59e0b">explain</span> &middot; <span style="color:#f59e0b">PR review</span></p>
       <a href="https://github.com/w1ckedxt/cynicalsally-cli" target="_blank">Get Sally CLI &rarr;</a>
     </div>
 
