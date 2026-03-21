@@ -1,7 +1,7 @@
 # CYNICALSALLY-LITE — Project File
 
 > Source of truth voor Sally Lite.
-> Laatste update: 2026-03-14
+> Laatste update: 2026-03-21
 
 ---
 
@@ -9,7 +9,7 @@
 
 Sally Lite is een **thin client** die developers met één klik deployen op Render. Het is een gratis proeverij van Sally's code reviews. Bevat GEEN AI logica, GEEN prompts — puur een interface die code doorstuurt naar de CynicalSally backend.
 
-**Funnel:** Lite (gratis, 3/dag) → CLI Free (30 QR + 3 FT/maand) → SuperClub CLI (€14.99/mo)
+**Funnel:** Lite (gratis, 3/dag) → Full Suite CLI (€175.63/yr FF of €19.98/mo)
 
 ---
 
@@ -67,10 +67,17 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 
 ## VOLGENDE STAPPEN
 
-1. Render project aanmaken → Lite repo koppelen → Blueprint deploy
-2. Claude API credits → backend mock data → echte reviews
-3. End-to-end test: web UI + CLI
-4. Render marketing materiaal voorbereiden
+1. Wachten op Shifra — zij bepaalt hoe Sally Lite er visueel uitziet
+2. Render project aanmaken → Lite repo koppelen → Blueprint deploy
+3. Claude API credits → backend mock data → echte reviews
+4. End-to-end test: web UI + CLI
+5. Render marketing materiaal voorbereiden
+
+## CONTEXT
+
+- 2026-03-21: Repo is prima, wachten op Shifra voor haar visie
+- Full Suite pagina (cynicalsally-render) is live met 6 CLI tools + SuperClub included
+- SuperClub is nu puur web + Chrome Extension (paars), CLI is Full Suite (amber)
 
 ---
 
