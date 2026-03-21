@@ -467,18 +467,18 @@ const HTML = `<!DOCTYPE html>
     .tool-card-name {
       color: #e8503a;
       font-weight: 600;
-      font-size: 0.8rem;
+      font-size: 0.9rem;
     }
     .tool-card-cmd {
       display: block;
-      color: #555;
-      font-size: 0.6rem;
-      margin-bottom: 0.35rem;
+      color: #666;
+      font-size: 0.7rem;
+      margin-bottom: 0.4rem;
     }
     .tool-card-desc {
-      color: #888;
-      font-size: 0.7rem;
-      line-height: 1.5;
+      color: #bbb;
+      font-size: 0.75rem;
+      line-height: 1.6;
     }
     @media (max-width: 600px) {
       .tool-grid { grid-template-columns: 1fr; }
