@@ -425,109 +425,120 @@ const HTML = `<!DOCTYPE html>
     .bright { color: #22c55e; }
     .sneer { color: #ef4444; }
 
-    /* CTA */
-    .cta {
+    /* (old CTA removed — split into cta-intro, suite-header, tool-grid, cta-bottom) */
+
+    /* CTA intro */
+    .cta-intro {
+      text-align: center;
       margin-top: 2.5rem;
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
       background: linear-gradient(135deg, #e8503a11, #c4403011);
       border: 1px solid #e8503a33;
-      border-radius: 8px;
-      text-align: center;
+      border-radius: 12px;
     }
-    .cta h3 { color: #e8503a; margin-bottom: 0.5rem; font-size: 1rem; }
-    .cta p { color: #888; font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.5; }
-    .cta a {
-      display: inline-block;
-      padding: 0.75rem 2.5rem;
-      background: linear-gradient(135deg, #e8503a, #c44030);
-      border: none;
-      border-radius: 6px;
-      color: white;
-      font-weight: 600;
-      text-decoration: none;
-      font-family: inherit;
-      font-size: 0.8rem;
-      transition: all 0.2s;
-    }
-    .cta a:hover { opacity: 0.9; }
+    .cta-intro h3 { color: #e8503a; margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .cta-intro p { color: #888; font-size: 0.85rem; line-height: 1.5; }
 
-    /* Tool grid */
+    /* Suite header */
+    .suite-header {
+      text-align: center;
+      margin: 2.5rem 0 1.5rem;
+    }
+    .suite-header h2 {
+      color: #fff;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+    .suite-header p {
+      color: #666;
+      font-size: 0.85rem;
+    }
+
+    /* Tool grid — single column, FULL WIDTH, DRAMATIC */
     .tool-grid {
       display: flex;
       flex-direction: column;
-      gap: 1.25rem;
-      margin: 2rem 0;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
     .tool-card {
-      display: flex;
-      align-items: stretch;
-      gap: 0;
       background: #111;
       border: 1px solid #2a2a2a;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      transition: border-color 0.3s, transform 0.2s;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
     }
     .tool-card:hover {
-      border-color: #e8503a55;
-      transform: translateY(-2px);
+      border-color: #e8503a66;
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(232, 80, 58, 0.1);
     }
     .tool-card img {
-      width: 200px;
+      width: 100%;
       height: auto;
-      object-fit: cover;
-      flex-shrink: 0;
+      display: block;
     }
     .tool-card-body {
-      flex: 1;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      padding: 1.25rem 1.5rem 1.5rem;
     }
     .tool-card-top {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.4rem;
     }
     .tool-card-num {
       color: #e8503a;
-      font-size: 0.65rem;
-      font-weight: 700;
-      background: #e8503a18;
-      padding: 0.15rem 0.4rem;
-      border-radius: 3px;
-      letter-spacing: 0.02em;
+      font-size: 0.7rem;
+      font-weight: 800;
+      background: #e8503a1a;
+      border: 1px solid #e8503a33;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      letter-spacing: 0.05em;
     }
     .tool-card-name {
-      color: #e8503a;
+      color: #fff;
       font-weight: 700;
-      font-size: 1.05rem;
-      letter-spacing: -0.01em;
+      font-size: 1.3rem;
     }
     .tool-card-cmd {
       display: inline-block;
       color: #22c55e;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
+      font-weight: 500;
       margin-bottom: 0.6rem;
-      background: #22c55e0d;
-      padding: 0.2rem 0.5rem;
-      border-radius: 3px;
-      width: fit-content;
+      background: #22c55e0f;
+      border: 1px solid #22c55e22;
+      padding: 0.25rem 0.6rem;
+      border-radius: 4px;
     }
     .tool-card-desc {
       color: #bbb;
-      font-size: 0.78rem;
-      line-height: 1.65;
-      text-align: left;
+      font-size: 0.85rem;
+      line-height: 1.7;
     }
-    @media (max-width: 600px) {
-      .tool-card { flex-direction: column; }
-      .tool-card img { width: 100%; height: 200px; }
-      .tool-card-body { text-align: center; }
-      .tool-card-cmd { margin: 0 auto 0.6rem; }
+
+    /* CTA bottom button */
+    .cta-bottom {
+      text-align: center;
+      margin-bottom: 2rem;
     }
+    .cta-bottom a {
+      display: inline-block;
+      padding: 1rem 3rem;
+      background: linear-gradient(135deg, #e8503a, #c44030);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .cta-bottom a:hover { opacity: 0.9; transform: translateY(-2px); }
 
     .footer {
       text-align: center;
@@ -616,60 +627,69 @@ const HTML = `<!DOCTYPE html>
       </div>
     </div>
 
-    <div class="cta">
+    <div class="cta-intro">
       <img src="/sally-head.png" alt="Sally" class="cta-sally">
       <h3>Want the full experience?</h3>
       <p>Sally Lite gives you 3 reviews/day. The full CLI unlocks unlimited reviews, git diff support, and Full Truth deep analysis.</p>
-      <div class="tool-grid">
-        <div class="tool-card">
-          <img src="/tool-explain.png" alt="Explain">
-          <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-num">#1</span> <span class="tool-card-name">Explain</span></div>
-            <div class="tool-card-cmd">sally explain [file]</div>
-            <div class="tool-card-desc">I read the spaghetti someone left in your codebase and translate it into plain English &mdash; no judgment on who wrote it, just the cold, clear truth of what it actually does.</div>
-          </div>
-        </div>
-        <div class="tool-card">
-          <img src="/tool-refactor.png" alt="Refactor">
-          <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-num">#2</span> <span class="tool-card-name">Refactor</span></div>
-            <div class="tool-card-cmd">sally refactor [file]</div>
-            <div class="tool-card-desc">I don't tell you your code 'could be cleaner' and leave you guessing &mdash; I show you the before, I show you the after, and I explain why one of them is going to haunt your 3am on-call rotation.</div>
-          </div>
-        </div>
-        <div class="tool-card">
-          <img src="/tool-prreview.png" alt="PR Review">
-          <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-num">#3</span> <span class="tool-card-name">PR Review</span></div>
-            <div class="tool-card-cmd">sally review-pr [pr]</div>
-            <div class="tool-card-desc">I review your PR like a senior engineer who has time, opinions, and absolutely no reason to be polite about that nested ternary you snuck in on line 47.</div>
-          </div>
-        </div>
-        <div class="tool-card">
-          <img src="/tool-brainstorm.png" alt="Brainstorm">
-          <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-num">#4</span> <span class="tool-card-name">Brainstorm</span></div>
-            <div class="tool-card-cmd">sally brainstorm ["idea"]</div>
-            <div class="tool-card-desc">Pitch me your architecture idea and I'll tell you the three ways it falls apart at scale before you've written a single line of code &mdash; consider it cheaper than a post-mortem.</div>
-          </div>
-        </div>
-        <div class="tool-card">
-          <img src="/tool-frontend.png" alt="Frontend Review">
-          <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-num">#5</span> <span class="tool-card-name">Frontend Review</span></div>
-            <div class="tool-card-cmd">sally frontend [file]</div>
-            <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke, why your z-index is load-bearing, and why no, that is not how CSS specificity works.</div>
-          </div>
-        </div>
-        <div class="tool-card">
-          <img src="/tool-marketing.png" alt="Marketing Review">
-          <div class="tool-card-body">
-            <div class="tool-card-top"><span class="tool-card-num">#6</span> <span class="tool-card-name">Marketing Review</span></div>
-            <div class="tool-card-cmd">sally marketing ["copy"]</div>
-            <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
-          </div>
+    </div>
+
+    <div class="suite-header">
+      <h2>&#128293; Full Suite Tools</h2>
+      <p>6 specialized tools. One brutally honest engineer. Zero filter.</p>
+    </div>
+
+    <div class="tool-grid">
+      <div class="tool-card">
+        <img src="/tool-explain.png" alt="Explain">
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#1</span> <span class="tool-card-name">Explain</span></div>
+          <div class="tool-card-cmd">$ sally explain [file]</div>
+          <div class="tool-card-desc">I read the spaghetti someone left in your codebase and translate it into plain English &mdash; no judgment on who wrote it, just the cold, clear truth of what it actually does.</div>
         </div>
       </div>
+      <div class="tool-card">
+        <img src="/tool-refactor.png" alt="Refactor">
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#2</span> <span class="tool-card-name">Refactor</span></div>
+          <div class="tool-card-cmd">$ sally refactor [file]</div>
+          <div class="tool-card-desc">I don't tell you your code 'could be cleaner' and leave you guessing &mdash; I show you the before, I show you the after, and I explain why one of them is going to haunt your 3am on-call rotation.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <img src="/tool-prreview.png" alt="PR Review">
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#3</span> <span class="tool-card-name">PR Review</span></div>
+          <div class="tool-card-cmd">$ sally review-pr [pr]</div>
+          <div class="tool-card-desc">I review your PR like a senior engineer who has time, opinions, and absolutely no reason to be polite about that nested ternary you snuck in on line 47.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <img src="/tool-brainstorm.png" alt="Brainstorm">
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#4</span> <span class="tool-card-name">Brainstorm</span></div>
+          <div class="tool-card-cmd">$ sally brainstorm ["idea"]</div>
+          <div class="tool-card-desc">Pitch me your architecture idea and I'll tell you the three ways it falls apart at scale before you've written a single line of code &mdash; consider it cheaper than a post-mortem.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <img src="/tool-frontend.png" alt="Frontend Review">
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#5</span> <span class="tool-card-name">Frontend Review</span></div>
+          <div class="tool-card-cmd">$ sally frontend [file]</div>
+          <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke, why your z-index is load-bearing, and why no, that is not how CSS specificity works.</div>
+        </div>
+      </div>
+      <div class="tool-card">
+        <img src="/tool-marketing.png" alt="Marketing Review">
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="tool-card-num">#6</span> <span class="tool-card-name">Marketing Review</span></div>
+          <div class="tool-card-cmd">$ sally marketing ["copy"]</div>
+          <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-bottom">
       <a href="https://github.com/w1ckedxt/cynicalsally-cli" target="_blank">Get Sally CLI &rarr;</a>
     </div>
 
