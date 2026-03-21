@@ -425,17 +425,18 @@ const HTML = `<!DOCTYPE html>
     .cta p { color: #888; font-size: 0.8rem; margin-bottom: 1rem; line-height: 1.5; }
     .cta a {
       display: inline-block;
-      padding: 0.5rem 1.5rem;
-      background: transparent;
-      border: 1px solid #e8503a;
+      padding: 0.75rem 2.5rem;
+      background: linear-gradient(135deg, #e8503a, #c44030);
+      border: none;
       border-radius: 6px;
-      color: #e8503a;
+      color: white;
+      font-weight: 600;
       text-decoration: none;
       font-family: inherit;
       font-size: 0.8rem;
       transition: all 0.2s;
     }
-    .cta a:hover { background: #e8503a22; }
+    .cta a:hover { opacity: 0.9; }
 
     /* Tool grid */
     .tool-grid {
