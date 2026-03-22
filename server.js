@@ -997,6 +997,36 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
+    const SALLY_QUIPS = [
+      "Reading your code... trying not to laugh.",
+      "Hold on, I need a moment to process this.",
+      "You wrote this on purpose? Brave.",
+      "Loading my professional opinions...",
+      "Counting the ways this could go wrong...",
+      "I've seen things. But this is new.",
+      "Consulting my list of polite ways to say 'no'...",
+      "Deep breaths, Sally. Deep breaths.",
+      "Okay, who hurt you? Because it wasn't a linter.",
+      "Running static analysis... and emotional analysis.",
+      "This is either genius or a cry for help.",
+      "Fetching my red pen. The big one.",
+    ];
+    let quipInterval = null;
+
+    function startQuips(statusEl) {
+      let i = Math.floor(Math.random() * SALLY_QUIPS.length);
+      statusEl.textContent = SALLY_QUIPS[i];
+      statusEl.className = 'status';
+      quipInterval = setInterval(() => {
+        i = (i + 1) % SALLY_QUIPS.length;
+        statusEl.textContent = SALLY_QUIPS[i];
+      }, 3000);
+    }
+
+    function stopQuips() {
+      if (quipInterval) { clearInterval(quipInterval); quipInterval = null; }
+    }
+
     async function roast() {
       const code = document.getElementById('code').value.trim();
       const filename = document.getElementById('filename').value.trim();
@@ -1011,9 +1041,8 @@ const HTML = `<!DOCTYPE html>
       }
 
       btn.disabled = true;
-      status.textContent = 'Sally is judging your code...';
-      status.className = 'status';
       results.className = 'results';
+      startQuips(status);
 
       try {
         const res = await fetch('/api/review', {
@@ -1025,12 +1054,14 @@ const HTML = `<!DOCTYPE html>
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
+        stopQuips();
         renderResult(data);
         showQuota(data.quota);
         results.className = 'results visible';
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
         status.textContent = '';
       } catch (err) {
+        stopQuips();
         status.textContent = err.message;
         status.className = 'status error';
       } finally {
@@ -1051,9 +1082,8 @@ const HTML = `<!DOCTYPE html>
       }
 
       btn.disabled = true;
-      status.textContent = 'Sally is fetching and judging the repo...';
-      status.className = 'status';
       results.className = 'results';
+      startQuips(status);
 
       try {
         const res = await fetch('/api/review-github', {
@@ -1065,12 +1095,14 @@ const HTML = `<!DOCTYPE html>
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
+        stopQuips();
         renderResult(data);
         showQuota(data.quota);
         results.className = 'results visible';
         results.scrollIntoView({ behavior: 'smooth', block: 'start' });
         status.textContent = '';
       } catch (err) {
+        stopQuips();
         status.textContent = err.message;
         status.className = 'status error';
       } finally {
