@@ -355,7 +355,7 @@ const HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sally Lite</title>
+  <title>Sally Lite - "Because 'You're absolutely right' is probably absolutely wrong."</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
