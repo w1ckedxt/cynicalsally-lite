@@ -1162,7 +1162,7 @@ const HTML = `<!DOCTYPE html>
       const cardSubject = lastSubject || 'YOUR CODE';
       const cardSneer = encodeURIComponent(voice.hardest_sneer || '');
       const cardScore = d.score ? d.score.toFixed(1) : '';
-      const cardUrl = '${SALLY_API_URL}/api/v1/share-card?source=cli&lang=en'
+      const cardUrl = '` + SALLY_API_URL + `/api/v1/share-card?source=cli&lang=en'
         + '&sneer=' + cardSneer
         + '&score=' + cardScore
         + '&subject=' + encodeURIComponent(cardSubject);
