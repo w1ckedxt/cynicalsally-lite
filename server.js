@@ -30,7 +30,7 @@ const INSTANCE_DEVICE_ID = `lite-${randomUUID()}`; // One ID per deployed instan
 
 /**
  * Sally Lite Web — Simple web UI that proxies code reviews to the CynicalSally backend.
- * No AI, no prompts, no secrets. Just a thin frontend.
+ * No review logic, no prompts, no secrets. Just a thin frontend.
  */
 
 function parseBody(req) {
@@ -345,7 +345,7 @@ const HTML = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sally Lite — AI Code Reviewer</title>
+  <title>Sally Lite — Code Reviewer</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -1094,7 +1094,7 @@ const HTML = `<!DOCTYPE html>
 </head>
 <body>
   <div class="hero">
-    <img src="/sally-banner.png" alt="Sally — AI Code Reviewer" class="hero-img">
+    <img src="/sally-banner.png" alt="Cynical Sally" class="hero-img">
   </div>
   <div class="container">
     <div class="header">

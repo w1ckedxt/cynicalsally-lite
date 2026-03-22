@@ -2,7 +2,7 @@
 
 ![Cynical Sally](sally-banner.png)
 
-> **"I don't hate your code. I just expected better."** — Sally
+> **"Because 'You're absolutely right' is probably absolutely wrong."** — Sally
 
 **Free code reviewer. Zero filter. Zero sugarcoating.**
 Paste code or a GitHub URL, get a brutally honest review — scores, issues, fixes, and a personality that won't hold back.
@@ -81,7 +81,7 @@ Sally Lite (this repo)              Sally's Back Office
 
 ## Limits
 
-Sally Lite is free with daily limits:
+Sally Lite is free with daily limits (enforced by Sally's backend):
 
 | | Sally Lite |
 |---|---|
