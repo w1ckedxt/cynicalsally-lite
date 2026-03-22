@@ -1,7 +1,7 @@
 # CYNICALSALLY-LITE — Project File
 
 > Source of truth voor Sally Lite.
-> Laatste update: 2026-03-21
+> Laatste update: 2026-03-22
 
 ---
 
@@ -39,7 +39,13 @@ Sally Lite (deze repo)              CynicalSally Backend (cynicalsally-render)
 | Render Blueprint (`render.yaml`) | ✅ DONE | Web service, free tier |
 | README + deploy button | ✅ DONE | Funnel CTA's erin |
 | Render project aanmaken | ⬜ WACHT | Thomas moet 2e project betalen |
-| Echte AI reviews | ⬜ WACHT | Backend stuurt mock data tot Claude credits |
+| Echte AI reviews | ✅ LIVE | Backend doet echte Claude reviews |
+| GitHub repo roast | ✅ DONE | Paste GitHub URL, Sally fetcht + roast codebase |
+| Code paste roast | ✅ DONE | Paste code snippet, Sally roast het |
+| Code validation | ✅ DONE | looksLikeCode() + prompt injection detectie |
+| Quips from backend | ✅ DONE | Waiting quips fetched van /api/v1/quips |
+| Sectie-based rendering | ✅ DONE | Observations met titels als aparte secties |
+| CLI Burncard | 🔧 WIP | PNG endpoint werkt (source=cli), maar design is slecht: proportions, techy styling, dode ruimte. Moet opnieuw ontworpen worden met zorg. |
 
 ---
 
@@ -75,7 +81,9 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 
 ## CONTEXT
 
-- 2026-03-21: Repo is prima, wachten op Shifra voor haar visie
+- 2026-03-22: GitHub repo roast werkt, code paste werkt, quips van backend, sectie-based rendering
+- 2026-03-22: CLI burncard PNG endpoint bestaat maar design moet opnieuw (techy terminal style, betere proportions)
+- 2026-03-22: Shifra feedback: GitHub URL input erbij (gedaan)
 - Full Suite pagina (cynicalsally-render) is live met 6 CLI tools + SuperClub included
 - SuperClub is nu puur web + Chrome Extension (paars), CLI is Full Suite (amber)
 
