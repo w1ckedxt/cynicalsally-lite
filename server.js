@@ -589,7 +589,6 @@ const HTML = `<!DOCTYPE html>
       flex-direction: column;
     }
     .verdict-card {
-      max-height: 700px;
       overflow: hidden;
       position: relative;
     }
@@ -607,9 +606,7 @@ const HTML = `<!DOCTYPE html>
     }
     .burncard-card #shareWrap img {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top;
+      height: auto;
       display: block;
     }
     .share-label {
