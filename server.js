@@ -100,18 +100,24 @@ function parseGitHubUrl(url) {
 }
 
 async function fetchGitHubFiles(owner, repo, path) {
-  const apiUrl = path
-    ? `https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`
-    : `https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`;
+  const ghHeaders = { "Accept": "application/vnd.github+json", "User-Agent": "SallyLite/1.0" };
 
-  const treeRes = await fetch(apiUrl, {
-    headers: { "Accept": "application/vnd.github+json", "User-Agent": "SallyLite/1.0" },
-  });
-
-  if (!treeRes.ok) {
-    if (treeRes.status === 404) throw new Error("Repository not found. Make sure it's public.");
-    throw new Error(`GitHub API error: ${treeRes.status}`);
+  // Step 1: get default branch
+  const repoRes = await fetch(`https://api.github.com/repos/${owner}/${repo}`, { headers: ghHeaders });
+  if (!repoRes.ok) {
+    if (repoRes.status === 404) throw new Error("Repository not found. Make sure it's public.");
+    throw new Error(`GitHub API error: ${repoRes.status}`);
   }
+  const repoData = await repoRes.json();
+  const branch = repoData.default_branch || "main";
+
+  // Step 2: get file tree
+  const treeRes = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/git/trees/${branch}?recursive=1`,
+    { headers: ghHeaders },
+  );
+
+  if (!treeRes.ok) throw new Error(`Could not read repository tree (${treeRes.status}).`);
 
   const treeData = await treeRes.json();
   if (!treeData.tree) throw new Error("Could not read repository tree.");
@@ -130,10 +136,10 @@ async function fetchGitHubFiles(owner, repo, path) {
 
   if (codeFiles.length === 0) throw new Error("No code files found in this repository.");
 
-  // Fetch each file's content
+  // Step 3: fetch each file's raw content
   const files = await Promise.all(
     codeFiles.map(async (f) => {
-      const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/${f.path}`;
+      const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${f.path}`;
       const rawRes = await fetch(rawUrl, { headers: { "User-Agent": "SallyLite/1.0" } });
       if (!rawRes.ok) return null;
       const content = await rawRes.text();
