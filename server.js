@@ -703,10 +703,12 @@ const HTML = `<!DOCTYPE html>
       box-shadow: 0 0 24px rgba(232, 80, 58, 0.15);
       transition: box-shadow 0.3s, border-color 0.3s;
     }
+    .cta-card .tool-card-img {
+      aspect-ratio: 3 / 1;
+    }
     .cta-card .tool-card-img img {
-      object-fit: contain;
-      object-position: center;
-      background: #0a0a0a;
+      object-fit: cover;
+      object-position: center center;
     }
     .cta-card:hover {
       border-color: #e8503a88 !important;
