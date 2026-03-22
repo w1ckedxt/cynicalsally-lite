@@ -17,8 +17,8 @@ const TOOL_IMAGES = {
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
 const MAX_CODE_LENGTH = 500 * 1024; // 500KB max paste
-const MAX_GITHUB_FILES = 20; // Max files to fetch from a repo
-const MAX_FILE_SIZE = 50 * 1024; // 50KB per file from GitHub
+const MAX_GITHUB_FILES = 10; // Max files to fetch from a repo
+const MAX_FILE_SIZE = 30 * 1024; // 30KB per file from GitHub
 const CODE_EXTENSIONS = new Set([
   ".js", ".ts", ".tsx", ".jsx", ".py", ".rb", ".go", ".rs", ".java",
   ".c", ".cpp", ".h", ".cs", ".php", ".swift", ".kt", ".scala",
@@ -233,7 +233,7 @@ const server = createServer(async (req, res) => {
 
       if (!looksLikeCode(code)) {
         res.writeHead(400, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "Yeah, that's not code. I don't do bedtime stories. If you want me to roast your non-code disasters, go to cynicalsally.com or get the Chrome Extension. I'm versatile like that." }));
+        res.end(JSON.stringify({ error: "not_code", redirect: "https://cynicalsally.com" }));
         return;
       }
 
@@ -284,11 +284,12 @@ const server = createServer(async (req, res) => {
       const files = await fetchGitHubFiles(parsed.owner, parsed.repo, parsed.path);
       console.log(`[github review] Fetched ${files.length} files from ${parsed.owner}/${parsed.repo}`);
 
-      // Trim total payload to stay under backend limits
+      // Trim total payload — keep under 200KB so Claude can parse the response properly
+      const GITHUB_PAYLOAD_LIMIT = 200 * 1024;
       let totalSize = 0;
       const trimmedFiles = [];
       for (const f of files) {
-        if (totalSize + f.content.length > MAX_CODE_LENGTH) break;
+        if (totalSize + f.content.length > GITHUB_PAYLOAD_LIMIT) break;
         trimmedFiles.push(f);
         totalSize += f.content.length;
       }
@@ -1013,32 +1014,24 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
-    let cachedQuips = null;
+    // Quips: fetched from backend, cached in memory
+    // Minimal fallback so quips work even before backend deploys the endpoint
+    let cachedQuips = ["Sally is reading your code...", "One moment..."];
     let quipInterval = null;
 
-    async function fetchQuips() {
-      if (cachedQuips) return cachedQuips;
-      try {
-        const res = await fetch('/api/quips');
-        const data = await res.json();
-        if (data.quips && data.quips.length > 0) {
-          cachedQuips = data.quips;
-          return cachedQuips;
-        }
-      } catch {}
-      // Fallback if backend is unreachable
-      cachedQuips = ["Sally is thinking..."];
-      return cachedQuips;
-    }
+    // Fetch real quips from backend in background — replaces fallback once loaded
+    fetch('/api/quips')
+      .then(r => r.json())
+      .then(data => { if (data.quips && data.quips.length > 0) cachedQuips = data.quips; })
+      .catch(() => {});
 
-    async function startQuips(statusEl) {
-      const quips = await fetchQuips();
-      let i = Math.floor(Math.random() * quips.length);
-      statusEl.textContent = quips[i];
+    function startQuips(statusEl) {
+      let i = Math.floor(Math.random() * cachedQuips.length);
+      statusEl.textContent = cachedQuips[i];
       statusEl.className = 'status';
       quipInterval = setInterval(() => {
-        i = (i + 1) % quips.length;
-        statusEl.textContent = quips[i];
+        i = (i + 1) % cachedQuips.length;
+        statusEl.textContent = cachedQuips[i];
       }, 3000);
     }
 
