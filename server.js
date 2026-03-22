@@ -349,14 +349,14 @@ const HTML = `<!DOCTYPE html>
     }
 
     .container {
-      max-width: 800px;
+      max-width: 1100px;
       margin: 0 auto;
       padding: 2rem 1.5rem;
     }
 
     /* Hero banner */
     .hero {
-      max-width: 800px;
+      max-width: 1100px;
       margin: 0 auto 0;
       padding: 2rem 1.5rem 0;
     }
@@ -574,20 +574,86 @@ const HTML = `<!DOCTYPE html>
     .results { display: none; }
     .results.visible { display: block; }
 
-    .result-layout {
+    .result-cards {
       display: flex;
-      gap: 2rem;
-      align-items: flex-start;
+      gap: 1.5rem;
+      align-items: stretch;
     }
-    .result-content {
+    .verdict-card, .burncard-card {
       flex: 1;
-      min-width: 0;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
     }
-    .result-card {
-      flex-shrink: 0;
-      width: 340px;
-      position: sticky;
-      top: 1.5rem;
+    .burncard-card {
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+    .burncard-card #shareWrap {
+      flex: 1;
+    }
+    .burncard-card #shareWrap a {
+      display: block;
+      height: 100%;
+    }
+    .burncard-card #shareWrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+    .share-label {
+      text-align: center;
+      padding: 0.75rem;
+      color: #888;
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+      background: #111;
+      border-top: 1px solid #2a2a2a;
+    }
+    .verdict-expand, .verdict-collapse {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: auto;
+      padding: 0.75rem;
+      color: #e8503a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-top: 1px solid #2a2a2a;
+      transition: color 0.2s;
+    }
+    .verdict-expand:hover, .verdict-collapse:hover {
+      color: #ff6b4a;
+    }
+    .expand-icon {
+      transition: transform 0.3s;
+    }
+    .expand-icon.rotated {
+      transform: rotate(180deg);
+    }
+    .full-review {
+      display: none;
+      margin-top: 1.5rem;
+      padding: 1.5rem;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+    }
+    .full-review.open {
+      display: block;
+    }
+    .verdict-collapse {
+      margin-top: 1.5rem;
+      border-top: 1px solid #2a2a2a;
+      border-radius: 0;
     }
 
     .result-header {
@@ -902,8 +968,7 @@ const HTML = `<!DOCTYPE html>
     @media (max-width: 600px) {
       .container { padding: 1rem; }
       .endquotes { flex-direction: column; }
-      .result-layout { flex-direction: column; }
-      .result-card { width: 100%; position: static; }
+      .result-cards { flex-direction: column; }
     }
   </style>
 </head>
@@ -954,36 +1019,46 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="results" id="results">
-      <div class="result-layout">
-        <div class="result-content">
+      <div class="result-cards">
+        <div class="verdict-card">
           <div class="result-header">
             <h2>&#9760; Sally's Verdict</h2>
             <span class="score-badge" id="scoreBadge"></span>
           </div>
           <div class="score-bar"><div class="score-bar-fill" id="scoreBar"></div></div>
           <div class="sneer-hero" id="sneerHero"></div>
-          <div class="roast-text" id="roastText"></div>
-          <div id="issuesSection">
-            <div class="section-title">Issues</div>
-            <div id="issuesList"></div>
-          </div>
-          <div id="fixesSection" style="margin-top:1rem">
-            <div class="section-title">Actionable Fixes</div>
-            <div id="fixesList"></div>
-          </div>
-          <div class="endquotes">
-            <div class="endquote">
-              <div class="endquote-label">&#10024; Bright Side</div>
-              <div class="bright" id="brightSide"></div>
-            </div>
-            <div class="endquote">
-              <div class="endquote-label">&#128293; Hardest Sneer</div>
-              <div class="sneer" id="hardestSneer"></div>
-            </div>
+          <div class="verdict-expand" id="verdictExpand" onclick="toggleFullReview()">
+            <span class="expand-icon" id="expandIcon">&#9660;</span> Read full review
           </div>
         </div>
-        <div class="result-card">
+        <div class="burncard-card">
           <div id="shareWrap"></div>
+          <div class="share-label">Click to share &#8599;</div>
+        </div>
+      </div>
+
+      <div class="full-review" id="fullReview">
+        <div class="roast-text" id="roastText"></div>
+        <div id="issuesSection">
+          <div class="section-title">Issues</div>
+          <div id="issuesList"></div>
+        </div>
+        <div id="fixesSection" style="margin-top:1rem">
+          <div class="section-title">Actionable Fixes</div>
+          <div id="fixesList"></div>
+        </div>
+        <div class="endquotes">
+          <div class="endquote">
+            <div class="endquote-label">&#10024; Bright Side</div>
+            <div class="bright" id="brightSide"></div>
+          </div>
+          <div class="endquote">
+            <div class="endquote-label">&#128293; Hardest Sneer</div>
+            <div class="sneer" id="hardestSneer"></div>
+          </div>
+        </div>
+        <div class="verdict-collapse" onclick="toggleFullReview()">
+          <span>&#9650;</span> Collapse review
         </div>
       </div>
     </div>
@@ -1066,6 +1141,20 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
+    function toggleFullReview() {
+      var el = document.getElementById('fullReview');
+      var icon = document.getElementById('expandIcon');
+      var isOpen = el.classList.contains('open');
+      if (isOpen) {
+        el.classList.remove('open');
+        icon.classList.remove('rotated');
+      } else {
+        el.classList.add('open');
+        icon.classList.add('rotated');
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
     // Quips: fetched from backend, cached in memory
     // Minimal fallback so quips work even before backend deploys the endpoint
     let cachedQuips = ["Sally is reading your code...", "One moment..."];
@@ -1203,9 +1292,7 @@ const HTML = `<!DOCTYPE html>
         var link = document.createElement('a');
         link.href = burncardUrl;
         link.target = '_blank';
-        link.style.cssText = 'display:block;border-radius:10px;overflow:hidden;border:1px solid #e8503a33;transition:border-color 0.3s';
-        link.onmouseover = function() { this.style.borderColor = '#e8503a66'; };
-        link.onmouseout = function() { this.style.borderColor = '#e8503a33'; };
+        link.style.cssText = 'display:block';
         var img = document.createElement('img');
         img.src = burncardUrl;
         img.alt = 'Cynical Sally CLI Burncard';
