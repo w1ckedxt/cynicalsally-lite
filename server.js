@@ -348,57 +348,75 @@ const HTML = `<!DOCTYPE html>
     .quota-badge.exhausted { border-color: #ef444444; }
     .quota-badge.exhausted .count { color: #ef4444; }
 
-    /* Mode toggle */
-    .mode-toggle {
-      display: flex;
-      gap: 0;
-      margin-bottom: 1rem;
-      background: #1a1a1a;
-      border: 1px solid #2a2a2a;
-      border-radius: 6px;
-      overflow: hidden;
-      width: fit-content;
+    /* GitHub URL input — primary */
+    .github-section {
+      margin-bottom: 1.5rem;
     }
-    .mode-btn {
-      padding: 0.5rem 1.2rem;
-      background: transparent;
-      border: none;
-      color: #666;
-      font-family: inherit;
-      font-size: 0.8rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.2s;
+    .github-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #e8503a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.5rem;
     }
-    .mode-btn.active {
-      background: #e8503a;
-      color: white;
-    }
-    .mode-btn:hover:not(.active) { color: #ccc; }
-
-    /* GitHub URL input */
-    .github-input-wrap {
-      display: none;
-      margin-bottom: 1rem;
-    }
-    .github-input-wrap.visible { display: block; }
     .github-input {
       width: 100%;
-      padding: 1rem;
+      padding: 1rem 1.2rem;
       background: #111;
-      border: 1px solid #2a2a2a;
-      border-radius: 8px;
+      border: 2px solid #e8503a33;
+      border-radius: 10px;
       color: #e0e0e0;
       font-family: inherit;
-      font-size: 0.85rem;
+      font-size: 1rem;
       outline: none;
+      transition: border-color 0.2s;
     }
-    .github-input:focus { border-color: #e8503a44; }
-    .github-input::placeholder { color: #333; }
-    .github-hint {
-      margin-top: 0.4rem;
-      font-size: 0.7rem;
-      color: #444;
+    .github-input:focus { border-color: #e8503a; }
+    .github-input::placeholder { color: #444; }
+    .github-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.75rem;
+    }
+    .btn-roast-repo {
+      padding: 0.7rem 2rem;
+      background: linear-gradient(135deg, #e8503a, #c44030);
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-roast-repo:hover { opacity: 0.9; }
+    .btn-roast-repo:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Divider with Sally quip */
+    .paste-divider {
+      text-align: center;
+      margin: 2rem 0 1.5rem;
+      position: relative;
+    }
+    .paste-divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #1a1a1a;
+    }
+    .paste-divider span {
+      position: relative;
+      background: #0a0a0a;
+      padding: 0 1rem;
+      color: #555;
+      font-size: 0.78rem;
+      font-style: italic;
     }
 
     /* Editor */
@@ -787,17 +805,20 @@ const HTML = `<!DOCTYPE html>
       <span class="quota-badge" id="quotaBadge"><span class="count" id="quotaCount"></span></span>
     </div>
 
-    <div class="mode-toggle">
-      <button class="mode-btn active" id="modePaste" onclick="setMode('paste')">Paste Code</button>
-      <button class="mode-btn" id="modeGithub" onclick="setMode('github')">GitHub Repo</button>
-    </div>
-
-    <div class="github-input-wrap" id="githubWrap">
+    <div class="github-section">
+      <div class="github-label">Roast a GitHub repo</div>
       <input type="text" class="github-input" id="githubUrl" placeholder="https://github.com/owner/repo" spellcheck="false">
-      <p class="github-hint">Paste a public GitHub repo URL. Sally will fetch and review the codebase.</p>
+      <div class="github-actions">
+        <button class="btn-roast-repo" id="roastRepoBtn" onclick="roastGithub()">Roast This Repo</button>
+        <span class="status" id="githubStatus"></span>
+      </div>
     </div>
 
-    <div class="editor-wrap" id="editorWrap">
+    <div class="paste-divider">
+      <span>Too scared to show me the whole thing? Fine. Paste a snippet.</span>
+    </div>
+
+    <div class="editor-wrap">
       <div class="filename-bar">
         <span class="dot dot-red"></span>
         <span class="dot dot-yellow"></span>
@@ -921,23 +942,7 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
-    let currentMode = 'paste';
-
-    function setMode(mode) {
-      currentMode = mode;
-      document.getElementById('modePaste').className = mode === 'paste' ? 'mode-btn active' : 'mode-btn';
-      document.getElementById('modeGithub').className = mode === 'github' ? 'mode-btn active' : 'mode-btn';
-      document.getElementById('editorWrap').style.display = mode === 'paste' ? 'block' : 'none';
-      document.getElementById('githubWrap').className = mode === 'github' ? 'github-input-wrap visible' : 'github-input-wrap';
-      document.getElementById('roastBtn').textContent = mode === 'paste' ? 'Roast My Code' : 'Roast This Repo';
-    }
-
     async function roast() {
-      if (currentMode === 'github') return roastGithub();
-      return roastPaste();
-    }
-
-    async function roastPaste() {
       const code = document.getElementById('code').value.trim();
       const filename = document.getElementById('filename').value.trim();
       const btn = document.getElementById('roastBtn');
@@ -980,8 +985,8 @@ const HTML = `<!DOCTYPE html>
 
     async function roastGithub() {
       const url = document.getElementById('githubUrl').value.trim();
-      const btn = document.getElementById('roastBtn');
-      const status = document.getElementById('status');
+      const btn = document.getElementById('roastRepoBtn');
+      const status = document.getElementById('githubStatus');
       const results = document.getElementById('results');
 
       if (!url) {
@@ -991,7 +996,7 @@ const HTML = `<!DOCTYPE html>
       }
 
       btn.disabled = true;
-      status.textContent = 'Sally is cloning and judging the repo...';
+      status.textContent = 'Sally is fetching and judging the repo...';
       status.className = 'status';
       results.className = 'results';
 
