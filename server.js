@@ -618,7 +618,6 @@ const HTML = `<!DOCTYPE html>
     }
     .roast-preview-wrap {
       position: relative;
-      max-height: 220px;
       overflow: hidden;
       flex: 1;
       margin-top: 0.5rem;
@@ -843,7 +842,7 @@ const HTML = `<!DOCTYPE html>
     /* Bento grid — asymmetric, editorial, premium */
     .tool-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
       grid-auto-rows: auto;
       gap: 1rem;
       margin-bottom: 2.5rem;
@@ -1100,7 +1099,7 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="tool-grid">
-      <div class="tool-card">
+      <div class="tool-card hero">
         <div class="tool-card-img"><img src="/tool-prreview.png" alt="Sally at her desk, gold nameplate reading PR REVIEW" loading="lazy"></div>
         <span class="tool-label">PR Review</span>
         <div class="tool-card-body">
@@ -1145,7 +1144,7 @@ const HTML = `<!DOCTYPE html>
           <div class="tool-card-desc">I'll tell you why your component re-renders on every keystroke and why your z-index is load-bearing.</div>
         </div>
       </div>
-      <div class="tool-card">
+      <div class="tool-card hero">
         <div class="tool-card-img"><img src="/tool-marketing.png" alt="Sally at her desk, gold nameplate reading MARKETING" loading="lazy"></div>
         <span class="tool-label">Marketing</span>
         <div class="tool-card-body">
