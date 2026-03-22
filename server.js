@@ -55,6 +55,38 @@ function splitCodeToFiles(code, filename) {
   return [{ path: name, content: code }];
 }
 
+function looksLikeCode(text) {
+  const trimmed = text.trim();
+  if (trimmed.length < 10) return false;
+
+  // Prompt injection / jailbreak patterns
+  const suspicious = [
+    /ignore (all |any )?(previous |prior |above )?instructions/i,
+    /you are now/i,
+    /act as/i,
+    /pretend (you|to be)/i,
+    /system prompt/i,
+    /reveal your/i,
+    /disregard/i,
+    /new instructions/i,
+    /forget (everything|your|all)/i,
+  ];
+  if (suspicious.some((p) => p.test(trimmed))) return false;
+
+  // Code signals — at least 2 of these should match
+  const signals = [
+    /[{}\[\]();]/.test(trimmed),                      // brackets, parens, semicolons
+    /\b(function|const|let|var|class|import|export|return|if|else|for|while|def|fn|pub|async|await)\b/.test(trimmed),
+    /[=!<>]=|=>|->|\+\+|--/.test(trimmed),            // operators
+    /^\s{2,}/m.test(trimmed),                          // indentation
+    /\/\/|\/\*|#\s|"""|'''/.test(trimmed),             // comments
+    /\.\w+\(/.test(trimmed),                           // method calls
+    /\b(null|nil|None|true|false|undefined)\b/.test(trimmed),
+  ];
+  const score = signals.filter(Boolean).length;
+  return score >= 2;
+}
+
 function parseGitHubUrl(url) {
   // Supports: github.com/owner/repo, github.com/owner/repo/tree/branch/path
   const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
@@ -174,6 +206,12 @@ const server = createServer(async (req, res) => {
       if (code.length > MAX_CODE_LENGTH) {
         res.writeHead(400, { "Content-Type": "application/json" });
         res.end(JSON.stringify({ error: "Code too large. Max 500KB." }));
+        return;
+      }
+
+      if (!looksLikeCode(code)) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "That doesn't look like code. Sally only reviews actual code, not your diary." }));
         return;
       }
 
