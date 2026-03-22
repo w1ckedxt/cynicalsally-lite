@@ -1198,18 +1198,22 @@ const HTML = `<!DOCTYPE html>
           + '&score=' + cardScore
           + '&subject=' + encodeURIComponent(cardSubject);
 
-        wrap.innerHTML = '<div class="share-card">'
-          + '<div class="share-card-top">'
-          + '<span class="share-card-badge">CYNICAL SALLY CLI</span>'
-          + '<a class="share-card-link" href="' + burncardUrl + '" target="_blank">Share this roast</a>'
-          + '</div>'
-          + '<div class="share-card-sneer">"' + escapeHtml(cardSneer) + '"</div>'
-          + '<div class="share-card-meta">'
-          + '<span class="share-card-score" style="color:' + scoreColor + '">' + cardScore + '/10</span>'
-          + '<span>' + escapeHtml(cardSubject) + '</span>'
-          + '<span>npm install -g @cynicalsally/cli</span>'
-          + '</div>'
-          + '</div>';
+        var cardLink = document.createElement('a');
+        cardLink.className = 'share-card';
+        cardLink.href = burncardUrl;
+        cardLink.target = '_blank';
+        var cardImg = document.createElement('img');
+        cardImg.src = burncardUrl;
+        cardImg.alt = 'Cynical Sally CLI Burncard';
+        cardImg.style.cssText = 'width:100%;border-radius:8px;display:block';
+        cardImg.onerror = function() { wrap.style.display = 'none'; };
+        cardLink.appendChild(cardImg);
+        var cardHint = document.createElement('div');
+        cardHint.style.cssText = 'text-align:center;padding:0.5rem;font-size:0.7rem;color:#555';
+        cardHint.textContent = 'Share this roast';
+        cardLink.appendChild(cardHint);
+        wrap.innerHTML = '';
+        wrap.appendChild(cardLink);
       } catch (e) {
         console.error('[share card]', e);
       }
