@@ -1,4 +1,4 @@
-# Sally Lite
+# Cynical Sally Lite
 
 ![Cynical Sally](sally-banner.png)
 
