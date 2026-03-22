@@ -1338,9 +1338,9 @@ const HTML = `<!DOCTYPE html>
       document.getElementById('scoreBar').style.width = (score * 10) + '%';
 
       // Roast — render as sections if messages available, fallback to plain text
-      const roastEl = document.getElementById('roastText');
+      var roastHtml = '';
       if (d.messages && d.messages.length > 0) {
-        roastEl.innerHTML = d.messages.map(m => {
+        roastHtml = d.messages.map(m => {
           if (m.type === 'intro') {
             return '<p style="margin-bottom:1rem;color:#ccc;font-size:0.9rem">' + escapeHtml(m.text) + '</p>';
           }
@@ -1355,18 +1355,16 @@ const HTML = `<!DOCTYPE html>
               + '<p style="color:#e0e0e0;font-weight:500;line-height:1.7">' + escapeHtml(m.text) + '</p>'
               + '</div>';
           }
-          // Fallback for observations without title
           return '<p style="margin-bottom:0.75rem;color:#bbb">' + escapeHtml(m.text) + '</p>';
         }).join('');
       } else {
-        roastEl.innerHTML = voice.roast
+        roastHtml = voice.roast
           .split('\\n\\n')
           .map(p => '<p style="margin-bottom:0.75rem">' + escapeHtml(p) + '</p>')
           .join('');
       }
-
-      // Preview: clone roast into verdict card preview
-      document.getElementById('roastPreview').innerHTML = roastEl.innerHTML;
+      document.getElementById('roastText').innerHTML = roastHtml;
+      document.getElementById('roastPreview').innerHTML = roastHtml;
 
       // Issues
       const issuesList = document.getElementById('issuesList');
