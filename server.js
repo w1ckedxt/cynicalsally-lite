@@ -1158,18 +1158,24 @@ const HTML = `<!DOCTYPE html>
       const { data: d, voice, meta } = data;
 
       // Burncard — generate image URL and show at top
-      const burncardWrap = document.getElementById('burncardWrap');
-      const cardSubject = lastSubject || 'YOUR CODE';
-      const cardSneer = encodeURIComponent(voice.hardest_sneer || '');
-      const cardScore = d.score ? d.score.toFixed(1) : '';
-      const cardUrl = '` + SALLY_API_URL + `/api/v1/share-card?source=cli&lang=en'
-        + '&sneer=' + cardSneer
-        + '&score=' + cardScore
-        + '&subject=' + encodeURIComponent(cardSubject);
-      burncardWrap.innerHTML = '<div class="burncard" onclick="window.open(\\'' + cardUrl + '\\', \\'_blank\\')">'
-        + '<img src="' + cardUrl + '" alt="Sally CLI Burncard" loading="eager">'
-        + '<div class="burncard-hint">Click to open full size — share your roast</div>'
-        + '</div>';
+      try {
+        const burncardWrap = document.getElementById('burncardWrap');
+        const cardSubject = lastSubject || 'YOUR CODE';
+        const cardSneer = encodeURIComponent(voice.hardest_sneer || 'No comment.');
+        const cardScore = d.score ? d.score.toFixed(1) : '5.0';
+        const backendUrl = '` + SALLY_API_URL + `';
+        const cardUrl = backendUrl + '/api/v1/share-card?source=cli&lang=en'
+          + '&sneer=' + cardSneer
+          + '&score=' + cardScore
+          + '&subject=' + encodeURIComponent(cardSubject);
+        console.log('[burncard] URL:', cardUrl);
+        burncardWrap.innerHTML = '<a class="burncard" href="' + cardUrl + '" target="_blank">'
+          + '<img src="' + cardUrl + '" alt="Sally CLI Burncard" onerror="this.parentElement.style.display=\\'none\\'">'
+          + '<div class="burncard-hint">Click to open full size</div>'
+          + '</a>';
+      } catch (e) {
+        console.error('[burncard] Error:', e);
+      }
 
       // Score
       const score = d.score;
