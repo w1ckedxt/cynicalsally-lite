@@ -1169,10 +1169,21 @@ const HTML = `<!DOCTYPE html>
           + '&score=' + cardScore
           + '&subject=' + encodeURIComponent(cardSubject);
         console.log('[burncard] URL:', cardUrl);
-        burncardWrap.innerHTML = '<a class="burncard" href="' + cardUrl + '" target="_blank">'
-          + '<img src="' + cardUrl + '" alt="Sally CLI Burncard" onerror="this.parentElement.style.display=\\'none\\'">'
-          + '<div class="burncard-hint">Click to open full size</div>'
-          + '</a>';
+        const img = document.createElement('img');
+        img.src = cardUrl;
+        img.alt = 'Sally CLI Burncard';
+        img.onerror = function() { burncardWrap.style.display = 'none'; };
+        const link = document.createElement('a');
+        link.className = 'burncard';
+        link.href = cardUrl;
+        link.target = '_blank';
+        link.appendChild(img);
+        const hint = document.createElement('div');
+        hint.className = 'burncard-hint';
+        hint.textContent = 'Click to open full size';
+        link.appendChild(hint);
+        burncardWrap.innerHTML = '';
+        burncardWrap.appendChild(link);
       } catch (e) {
         console.error('[burncard] Error:', e);
       }
