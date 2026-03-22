@@ -247,9 +247,12 @@ const server = createServer(async (req, res) => {
 
       const files = splitCodeToFiles(code, filename);
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 120000);
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           files,
           mode: "quick",
@@ -258,14 +261,16 @@ const server = createServer(async (req, res) => {
           tone: tone || "cynical",
         }),
       });
+      clearTimeout(timeout);
 
       const result = await apiRes.json();
       res.writeHead(apiRes.status, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
     } catch (err) {
       console.error("[review proxy]", err.message);
+      const msg = err.name === "AbortError" ? "Sally is taking too long. Try again in a moment." : "Something went wrong. Try again.";
       res.writeHead(500, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: "Something went wrong. Try again." }));
+      res.end(JSON.stringify({ error: msg }));
     }
     return;
   }
@@ -303,9 +308,12 @@ const server = createServer(async (req, res) => {
       }
       console.log(`[github review] Sending ${trimmedFiles.length} files (${Math.round(totalSize / 1024)}KB)`);
 
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 120000);
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           files: trimmedFiles,
           mode: "quick",
@@ -314,15 +322,17 @@ const server = createServer(async (req, res) => {
           tone: tone || "cynical",
         }),
       });
+      clearTimeout(timeout);
 
       const result = await apiRes.json();
       res.writeHead(apiRes.status, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
     } catch (err) {
       console.error("[github review] Error:", err);
+      const msg = err.name === "AbortError" ? "Sally is taking too long. Try again in a moment." : (err.message || "Something went wrong. Try again.");
       const code = err.message?.includes("not found") ? 404 : 500;
       res.writeHead(code, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ error: err.message || "Something went wrong. Try again." }));
+      res.end(JSON.stringify({ error: msg }));
     }
     return;
   }
@@ -623,9 +633,15 @@ const HTML = `<!DOCTYPE html>
       align-items: center;
       justify-content: space-between;
       padding: 0.6rem 1rem;
-      background: #111;
-      border-top: 1px solid #2a2a2a;
-      border-radius: 0 0 12px 12px;
+      background: rgba(0,0,0,0.85);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 2;
+    }
+    .burncard-card {
+      position: relative;
     }
     .share-label {
       color: #666;
@@ -716,6 +732,26 @@ const HTML = `<!DOCTYPE html>
       margin-top: 1.5rem;
       border-top: 1px solid #2a2a2a;
       border-radius: 0;
+    }
+    .copy-review-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 1rem;
+    }
+    .copy-review-btn {
+      padding: 0.4rem 1rem;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      color: #aaa;
+      font-family: inherit;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .copy-review-btn:hover {
+      background: #222;
+      color: #fff;
     }
     .cta-card {
       text-decoration: none;
@@ -1165,6 +1201,9 @@ const HTML = `<!DOCTYPE html>
       </div>
 
       <div class="full-review" id="fullReview">
+        <div class="copy-review-bar">
+          <button class="copy-review-btn" onclick="copyReview()">Copy full review</button>
+        </div>
         <div class="roast-text" id="roastText"></div>
         <div id="issuesSection">
           <div class="section-title">Issues</div>
@@ -1281,6 +1320,16 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
+    function copyReview() {
+      var el = document.getElementById('fullReview');
+      var text = el.innerText.replace('Copy full review', '').replace('Collapse review', '').trim();
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = document.querySelector('.copy-review-btn');
+        btn.textContent = 'Copied!';
+        setTimeout(function() { btn.textContent = 'Copy full review'; }, 2000);
+      });
+    }
+
     function toggleFullReview() {
       var el = document.getElementById('fullReview');
       var icon = document.getElementById('expandIcon');

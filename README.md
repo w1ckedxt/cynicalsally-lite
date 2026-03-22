@@ -9,6 +9,14 @@ Paste your code or a GitHub URL, get a brutally honest review with scores, issue
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/w1ckedxt/cynicalsally-lite)
 
+### Paste code, get roasted
+
+![Sally Lite clean state](sally-clean-state.png)
+
+### Sally delivers the verdict
+
+![Sally Lite roast result](sally-roasted-state.png)
+
 ---
 
 ## What is Sally Lite?
@@ -107,3 +115,7 @@ This repo includes [`render.yaml`](render.yaml) for one-click deployment as a Re
 ## License
 
 MIT - see [LICENSE](LICENSE)
+
+---
+
+Thomas Geelens 2026
