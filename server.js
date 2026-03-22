@@ -574,6 +574,20 @@ const HTML = `<!DOCTYPE html>
     .results { display: none; }
     .results.visible { display: block; }
 
+    .result-top {
+      display: flex;
+      gap: 1.5rem;
+      align-items: flex-start;
+    }
+    .result-verdict {
+      flex: 1;
+      min-width: 0;
+    }
+    #shareWrap {
+      flex-shrink: 0;
+      width: 260px;
+    }
+
     .result-header {
       display: flex;
       align-items: center;
@@ -886,6 +900,8 @@ const HTML = `<!DOCTYPE html>
     @media (max-width: 600px) {
       .container { padding: 1rem; }
       .endquotes { flex-direction: column; }
+      .result-top { flex-direction: column; }
+      #shareWrap { width: 100%; }
     }
   </style>
 </head>
@@ -936,13 +952,17 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="results" id="results">
-      <div class="result-header">
-        <h2>&#9760; Sally's Verdict</h2>
-        <span class="score-badge" id="scoreBadge"></span>
+      <div class="result-top">
+        <div class="result-verdict">
+          <div class="result-header">
+            <h2>&#9760; Sally's Verdict</h2>
+            <span class="score-badge" id="scoreBadge"></span>
+          </div>
+          <div class="score-bar"><div class="score-bar-fill" id="scoreBar"></div></div>
+          <div class="sneer-hero" id="sneerHero"></div>
+        </div>
+        <div id="shareWrap"></div>
       </div>
-      <div class="score-bar"><div class="score-bar-fill" id="scoreBar"></div></div>
-
-      <div class="sneer-hero" id="sneerHero"></div>
 
       <div class="roast-text" id="roastText"></div>
 
@@ -966,8 +986,6 @@ const HTML = `<!DOCTYPE html>
           <div class="sneer" id="hardestSneer"></div>
         </div>
       </div>
-
-      <div id="shareWrap" style="text-align:center"></div>
     </div>
 
     <div class="cta-intro">
@@ -1185,13 +1203,13 @@ const HTML = `<!DOCTYPE html>
         var link = document.createElement('a');
         link.href = burncardUrl;
         link.target = '_blank';
-        link.style.cssText = 'display:block;margin-top:1.5rem;border-radius:10px;overflow:hidden;border:1px solid #e8503a33;transition:border-color 0.3s';
+        link.style.cssText = 'display:block;border-radius:10px;overflow:hidden;border:1px solid #e8503a33;transition:border-color 0.3s';
         link.onmouseover = function() { this.style.borderColor = '#e8503a66'; };
         link.onmouseout = function() { this.style.borderColor = '#e8503a33'; };
         var img = document.createElement('img');
         img.src = burncardUrl;
         img.alt = 'Cynical Sally CLI Burncard';
-        img.style.cssText = 'width:100%;max-width:400px;display:block;margin:0 auto';
+        img.style.cssText = 'width:100%;display:block';
         img.onerror = function() { link.style.display = 'none'; };
         link.appendChild(img);
         shareWrap.innerHTML = '';
