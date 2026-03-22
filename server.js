@@ -197,6 +197,22 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  // Quips proxy (cached by browser for 1hr)
+  if (req.method === "GET" && req.url?.startsWith("/api/quips")) {
+    try {
+      const apiRes = await fetch(`${SALLY_API_URL}/api/v1/quips?type=code`, {
+        headers: { "User-Agent": "SallyLite/1.0" },
+      });
+      const result = await apiRes.json();
+      res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "public, max-age=3600" });
+      res.end(JSON.stringify(result));
+    } catch {
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ quips: ["Sally is thinking..."] }));
+    }
+    return;
+  }
+
   // API proxy
   if (req.method === "POST" && req.url === "/api/review") {
     try {
@@ -997,29 +1013,32 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
-    const SALLY_QUIPS = [
-      "Reading your code... trying not to laugh.",
-      "Hold on, I need a moment to process this.",
-      "You wrote this on purpose? Brave.",
-      "Loading my professional opinions...",
-      "Counting the ways this could go wrong...",
-      "I've seen things. But this is new.",
-      "Consulting my list of polite ways to say 'no'...",
-      "Deep breaths, Sally. Deep breaths.",
-      "Okay, who hurt you? Because it wasn't a linter.",
-      "Running static analysis... and emotional analysis.",
-      "This is either genius or a cry for help.",
-      "Fetching my red pen. The big one.",
-    ];
+    let cachedQuips = null;
     let quipInterval = null;
 
-    function startQuips(statusEl) {
-      let i = Math.floor(Math.random() * SALLY_QUIPS.length);
-      statusEl.textContent = SALLY_QUIPS[i];
+    async function fetchQuips() {
+      if (cachedQuips) return cachedQuips;
+      try {
+        const res = await fetch('/api/quips');
+        const data = await res.json();
+        if (data.quips && data.quips.length > 0) {
+          cachedQuips = data.quips;
+          return cachedQuips;
+        }
+      } catch {}
+      // Fallback if backend is unreachable
+      cachedQuips = ["Sally is thinking..."];
+      return cachedQuips;
+    }
+
+    async function startQuips(statusEl) {
+      const quips = await fetchQuips();
+      let i = Math.floor(Math.random() * quips.length);
+      statusEl.textContent = quips[i];
       statusEl.className = 'status';
       quipInterval = setInterval(() => {
-        i = (i + 1) % SALLY_QUIPS.length;
-        statusEl.textContent = SALLY_QUIPS[i];
+        i = (i + 1) % quips.length;
+        statusEl.textContent = quips[i];
       }, 3000);
     }
 
