@@ -15,12 +15,9 @@ Paste code or a GitHub URL, get a brutally honest review — scores, issues, fix
 
 Sally Lite is a free code review tool powered by [Cynical Sally](https://cynicalsally.com) — a senior engineer who reviews your code like she has time, opinions, and absolutely no reason to be polite.
 
-**Two ways to use it:**
+Paste code or a GitHub repo URL, get roasted in your browser. Deploy it on Render in one click.
 
-- **Web UI** — Paste code or a GitHub repo URL, get roasted in your browser
-- **CLI tool** — Review local files from the terminal
-
-Sally Lite is a thin client — no review logic, no prompts, no secrets. It sends your code to the CynicalSally backend and displays the results.
+Sally Lite is a thin client — all the heavy lifting happens in Sally's back office. This repo contains no review logic, no prompts, no secrets. It just talks to the CynicalSally backend and displays the results.
 
 ---
 
@@ -55,25 +52,18 @@ npm start
 
 Open `http://localhost:3000` in your browser.
 
-### CLI tool
-
-```bash
-node index.js roast ./your-project/
-```
-
 ---
 
-## Architecture
+## How it works
 
 ```
-Sally Lite (this repo)              CynicalSally Backend
+Sally Lite (this repo)              Sally's Back Office
 ┌──────────────────────┐            ┌──────────────────────────┐
 │ server.js (web UI)   │   POST     │ /api/v1/review           │
-│ index.js  (CLI tool) │ ────────>  │ - Rate limiting          │
-│                      │            │ - Device/IP quota        │
-│ No prompts           │ <────────  │ - Code review engine       │
-│ No review logic      │   JSON     │ - Sally's personality    │
-│ No secrets           │            │ - Scoring + issues       │
+│                      │ ────────>  │ - Rate limiting          │
+│ No prompts           │            │ - Device/IP quota        │
+│ No review logic      │ <────────  │ - Sally's review engine  │
+│ No secrets           │   JSON     │ - Scoring + issues       │
 └──────────────────────┘            └──────────────────────────┘
   Open source (MIT)                   Closed backend
 ```
@@ -84,18 +74,8 @@ Sally Lite (this repo)              CynicalSally Backend
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `SALLY_API_URL` | Backend API endpoint | `https://cynicalsally-web.onrender.com` |
+| `SALLY_API_URL` | Sally's backend endpoint | `https://cynicalsally-web.onrender.com` |
 | `PORT` | Server port | `3000` |
-
-## CLI Options
-
-| Flag | Description | Default |
-|------|-------------|---------|
-| `--mode` | `quick` or `full_truth` | `quick` |
-| `--tone` | `cynical`, `neutral`, `professional` | `cynical` |
-| `--lang` | Language code (en, nl, de, es, fr, etc.) | `en` |
-| `--json` | Output raw JSON | - |
-| `--fail-under` | Exit 1 if score below threshold | - |
 
 ---
 
