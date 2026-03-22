@@ -284,8 +284,8 @@ const server = createServer(async (req, res) => {
       const files = await fetchGitHubFiles(parsed.owner, parsed.repo, parsed.path);
       console.log(`[github review] Fetched ${files.length} files from ${parsed.owner}/${parsed.repo}`);
 
-      // Trim total payload — keep under 200KB so Claude can parse the response properly
-      const GITHUB_PAYLOAD_LIMIT = 200 * 1024;
+      // Trim total payload — Haiku can't handle huge inputs reliably
+      const GITHUB_PAYLOAD_LIMIT = 60 * 1024;
       let totalSize = 0;
       const trimmedFiles = [];
       for (const f of files) {
