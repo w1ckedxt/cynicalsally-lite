@@ -1174,7 +1174,7 @@ const HTML = `<!DOCTYPE html>
         sneerEl.style.display = 'none';
       }
 
-      // Share button — links to burncard PNG
+      // Burncard PNG — inline, clickable to full size
       try {
         var shareWrap = document.getElementById('shareWrap');
         var cardSubject = lastSubject || 'your code';
@@ -1182,13 +1182,20 @@ const HTML = `<!DOCTYPE html>
           + '&sneer=' + encodeURIComponent(voice.hardest_sneer || '')
           + '&score=' + (d.score ? d.score.toFixed(1) : '')
           + '&subject=' + encodeURIComponent(cardSubject);
-        var btn = document.createElement('a');
-        btn.className = 'share-btn';
-        btn.href = burncardUrl;
-        btn.target = '_blank';
-        btn.textContent = 'Share this roast';
+        var link = document.createElement('a');
+        link.href = burncardUrl;
+        link.target = '_blank';
+        link.style.cssText = 'display:block;margin-top:1.5rem;border-radius:10px;overflow:hidden;border:1px solid #e8503a33;transition:border-color 0.3s';
+        link.onmouseover = function() { this.style.borderColor = '#e8503a66'; };
+        link.onmouseout = function() { this.style.borderColor = '#e8503a33'; };
+        var img = document.createElement('img');
+        img.src = burncardUrl;
+        img.alt = 'Cynical Sally CLI Burncard';
+        img.style.cssText = 'width:100%;max-width:400px;display:block;margin:0 auto';
+        img.onerror = function() { link.style.display = 'none'; };
+        link.appendChild(img);
         shareWrap.innerHTML = '';
-        shareWrap.appendChild(btn);
+        shareWrap.appendChild(link);
       } catch (e) {
         console.error('[share]', e);
       }
