@@ -37,20 +37,7 @@ Sally Lite is a thin client. All the heavy lifting happens in Sally's back offic
 
 ## Quick Start
 
-### Deploy to Render
-
-Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables. Nothing to configure.
-
-### Run locally
-
-```bash
-git clone https://github.com/w1ckedxt/cynicalsally-lite.git
-cd cynicalsally-lite
-npm install
-npm start
-```
-
-Opens on `http://localhost:3000`.
+Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables. Nothing to configure. Your own Sally Lite instance will be live in under a minute.
 
 ---
 
@@ -72,12 +59,12 @@ Sally Lite (this repo)              Sally's Back Office
 
 ## Environment Variables
 
-Both are preconfigured in `render.yaml` for Render deployments. Only relevant if you run locally.
+All preconfigured in `render.yaml`. No manual setup needed.
 
-| Variable | Description | Default |
-|----------|-------------|---------|
-| `SALLY_API_URL` | Sally's backend endpoint | `https://cynicalsally-web.onrender.com` |
-| `PORT` | Server port | `3000` |
+| Variable | Description |
+|----------|-------------|
+| `SALLY_API_URL` | Sally's backend endpoint (preconfigured) |
+| `PORT` | Server port (set by Render automatically) |
 
 ---
 
