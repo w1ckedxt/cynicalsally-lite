@@ -574,18 +574,20 @@ const HTML = `<!DOCTYPE html>
     .results { display: none; }
     .results.visible { display: block; }
 
-    .result-top {
+    .result-layout {
       display: flex;
-      gap: 1.5rem;
+      gap: 2rem;
       align-items: flex-start;
     }
-    .result-verdict {
+    .result-content {
       flex: 1;
       min-width: 0;
     }
-    #shareWrap {
+    .result-card {
       flex-shrink: 0;
-      width: 260px;
+      width: 340px;
+      position: sticky;
+      top: 1.5rem;
     }
 
     .result-header {
@@ -900,8 +902,8 @@ const HTML = `<!DOCTYPE html>
     @media (max-width: 600px) {
       .container { padding: 1rem; }
       .endquotes { flex-direction: column; }
-      .result-top { flex-direction: column; }
-      #shareWrap { width: 100%; }
+      .result-layout { flex-direction: column; }
+      .result-card { width: 100%; position: static; }
     }
   </style>
 </head>
@@ -952,38 +954,36 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="results" id="results">
-      <div class="result-top">
-        <div class="result-verdict">
+      <div class="result-layout">
+        <div class="result-content">
           <div class="result-header">
             <h2>&#9760; Sally's Verdict</h2>
             <span class="score-badge" id="scoreBadge"></span>
           </div>
           <div class="score-bar"><div class="score-bar-fill" id="scoreBar"></div></div>
           <div class="sneer-hero" id="sneerHero"></div>
+          <div class="roast-text" id="roastText"></div>
+          <div id="issuesSection">
+            <div class="section-title">Issues</div>
+            <div id="issuesList"></div>
+          </div>
+          <div id="fixesSection" style="margin-top:1rem">
+            <div class="section-title">Actionable Fixes</div>
+            <div id="fixesList"></div>
+          </div>
+          <div class="endquotes">
+            <div class="endquote">
+              <div class="endquote-label">&#10024; Bright Side</div>
+              <div class="bright" id="brightSide"></div>
+            </div>
+            <div class="endquote">
+              <div class="endquote-label">&#128293; Hardest Sneer</div>
+              <div class="sneer" id="hardestSneer"></div>
+            </div>
+          </div>
         </div>
-        <div id="shareWrap"></div>
-      </div>
-
-      <div class="roast-text" id="roastText"></div>
-
-      <div id="issuesSection">
-        <div class="section-title">Issues</div>
-        <div id="issuesList"></div>
-      </div>
-
-      <div id="fixesSection" style="margin-top:1rem">
-        <div class="section-title">Actionable Fixes</div>
-        <div id="fixesList"></div>
-      </div>
-
-      <div class="endquotes">
-        <div class="endquote">
-          <div class="endquote-label">&#10024; Bright Side</div>
-          <div class="bright" id="brightSide"></div>
-        </div>
-        <div class="endquote">
-          <div class="endquote-label">&#128293; Hardest Sneer</div>
-          <div class="sneer" id="hardestSneer"></div>
+        <div class="result-card">
+          <div id="shareWrap"></div>
         </div>
       </div>
     </div>
