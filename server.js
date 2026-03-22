@@ -1,6 +1,6 @@
 import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
-import { randomUUID } from "node:crypto";
+import { randomUUID, createHash } from "node:crypto";
 
 const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
 const PIXEL_SALLY = readFileSync(new URL("./pixelsally-cursedqueen.png", import.meta.url));
@@ -26,7 +26,7 @@ const CODE_EXTENSIONS = new Set([
   ".vue", ".svelte", ".css", ".scss", ".html", ".sql", ".sh",
   ".yaml", ".yml", ".json", ".toml", ".env.example",
 ]);
-const INSTANCE_DEVICE_ID = `lite-${randomUUID()}`; // One ID per deployed instance — quota tracks on this
+const INSTANCE_DEVICE_ID = `lite-${createHash("sha256").update(SALLY_API_URL + "-sally-lite").digest("hex").slice(0, 16)}`; // Deterministic per deployment — survives restarts
 
 /**
  * Sally Lite Web — Simple web UI that proxies code reviews to the CynicalSally backend.
@@ -1493,8 +1493,8 @@ const HTML = `<!DOCTYPE html>
         // Build X/Twitter share URL
         var tweetScore = d.score ? d.score.toFixed(1) + '/10' : '';
         var tweetSneer = voice.hardest_sneer || '';
-        var tweetText = 'Sally roasted my code: ' + tweetScore + '\\n\\n"' + tweetSneer + '"\\n\\nGet roasted: cynicalsally.com';
-        var xUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText);
+        var tweetText = 'Sally roasted my code: ' + tweetScore + '\\n\\n"' + tweetSneer + '"\\n\\nGet roasted: cynicalsally.com\\n\\nMy burncard:';
+        var xUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText) + '&url=' + encodeURIComponent(burncardUrl);
         var xBtn = document.getElementById('shareXBtn');
         if (xBtn) { xBtn.href = xUrl; }
       } catch (e) {
