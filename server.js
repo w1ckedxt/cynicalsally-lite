@@ -655,57 +655,34 @@ const HTML = `<!DOCTYPE html>
     .issue-desc { color: #888; margin-top: 0.25rem; }
     .issue-fix { color: #22c55e; margin-top: 0.25rem; }
 
-    /* Share card — inline at bottom of results */
-    .share-card {
-      margin-top: 2rem;
-      padding: 1.25rem;
-      background: #111;
-      border: 1px solid #1a1a1a;
-      border-left: 3px solid #e8503a;
-      border-radius: 8px;
-    }
-    .share-card-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.75rem;
-    }
-    .share-card-badge {
-      font-size: 0.65rem;
-      font-weight: 800;
-      color: #e8503a;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    .share-card-link {
+    /* Share button */
+    .share-btn {
       display: inline-block;
-      padding: 0.4rem 1rem;
+      margin-top: 1.5rem;
+      padding: 0.6rem 1.5rem;
       background: linear-gradient(135deg, #e8503a, #c44030);
-      border-radius: 5px;
+      border-radius: 6px;
       color: white;
-      font-size: 0.75rem;
+      font-family: inherit;
+      font-size: 0.8rem;
       font-weight: 600;
       text-decoration: none;
       transition: opacity 0.2s;
     }
-    .share-card-link:hover { opacity: 0.85; }
-    .share-card-sneer {
-      color: #999;
-      font-size: 0.8rem;
+    .share-btn:hover { opacity: 0.85; }
+
+    /* Sneer highlight */
+    .sneer-hero {
+      margin: 1.5rem 0;
+      padding: 1rem 1.25rem;
+      background: #111;
+      border: 1px solid #1a1a1a;
+      border-left: 3px solid #e8503a;
+      border-radius: 8px;
+      color: #ccc;
+      font-size: 0.95rem;
       font-style: italic;
-      line-height: 1.5;
-      margin-bottom: 0.75rem;
-    }
-    .share-card-meta {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      font-size: 0.65rem;
-      color: #333;
-    }
-    .share-card-score {
-      font-weight: 800;
-      font-size: 0.8rem;
+      line-height: 1.6;
     }
 
     .endquotes {
@@ -965,6 +942,8 @@ const HTML = `<!DOCTYPE html>
       </div>
       <div class="score-bar"><div class="score-bar-fill" id="scoreBar"></div></div>
 
+      <div class="sneer-hero" id="sneerHero"></div>
+
       <div class="roast-text" id="roastText"></div>
 
       <div id="issuesSection">
@@ -988,7 +967,7 @@ const HTML = `<!DOCTYPE html>
         </div>
       </div>
 
-      <div id="shareCardWrap"></div>
+      <div id="shareWrap" style="text-align:center"></div>
     </div>
 
     <div class="cta-intro">
@@ -1186,49 +1165,32 @@ const HTML = `<!DOCTYPE html>
     function renderResult(data) {
       const { data: d, voice, meta } = data;
 
-      // Share card — inline at bottom of results
+      // Sneer hero — prominent quote right after score
+      var sneerEl = document.getElementById('sneerHero');
+      if (voice.hardest_sneer) {
+        sneerEl.textContent = '"' + voice.hardest_sneer + '"';
+        sneerEl.style.display = 'block';
+      } else {
+        sneerEl.style.display = 'none';
+      }
+
+      // Share button — links to burncard PNG
       try {
-        const wrap = document.getElementById('shareCardWrap');
-        const cardSubject = lastSubject || 'your code';
-        const cardSneer = voice.hardest_sneer || '';
-        const cardScore = d.score ? d.score.toFixed(1) : '';
-        const scoreColor = d.score >= 7 ? '#22c55e' : d.score >= 4 ? '#eab308' : '#ef4444';
-        const burncardUrl = '${SALLY_API_URL}/api/v1/share-card?source=cli&lang=en'
-          + '&sneer=' + encodeURIComponent(cardSneer)
-          + '&score=' + cardScore
+        var shareWrap = document.getElementById('shareWrap');
+        var cardSubject = lastSubject || 'your code';
+        var burncardUrl = '${SALLY_API_URL}/api/v1/share-card?source=cli&lang=en'
+          + '&sneer=' + encodeURIComponent(voice.hardest_sneer || '')
+          + '&score=' + (d.score ? d.score.toFixed(1) : '')
           + '&subject=' + encodeURIComponent(cardSubject);
-
-        // Text card — part of results
-        wrap.innerHTML = '<div class="share-card">'
-          + '<div class="share-card-top">'
-          + '<span class="share-card-badge">CYNICAL SALLY CLI</span>'
-          + '</div>'
-          + '<div class="share-card-sneer">"' + escapeHtml(cardSneer) + '"</div>'
-          + '<div class="share-card-meta">'
-          + '<span class="share-card-score" style="color:' + scoreColor + '">' + cardScore + '/10</span>'
-          + '<span>' + escapeHtml(cardSubject) + '</span>'
-          + '<span>npm install -g @cynicalsally/cli</span>'
-          + '</div>'
-          + '</div>';
-
-        // Burncard PNG — shareable viral image
-        var cardLink = document.createElement('a');
-        cardLink.href = burncardUrl;
-        cardLink.target = '_blank';
-        cardLink.style.cssText = 'display:block;margin-top:1rem;border-radius:10px;overflow:hidden;border:1px solid #e8503a33;transition:all 0.3s';
-        var cardImg = document.createElement('img');
-        cardImg.src = burncardUrl;
-        cardImg.alt = 'Cynical Sally CLI Burncard';
-        cardImg.style.cssText = 'width:100%;display:block';
-        cardImg.onerror = function() { cardLink.style.display = 'none'; };
-        cardLink.appendChild(cardImg);
-        var cardHint = document.createElement('div');
-        cardHint.style.cssText = 'text-align:center;padding:0.5rem;font-size:0.65rem;color:#444;background:#111';
-        cardHint.textContent = 'Click to open full size — share your roast';
-        cardLink.appendChild(cardHint);
-        wrap.appendChild(cardLink);
+        var btn = document.createElement('a');
+        btn.className = 'share-btn';
+        btn.href = burncardUrl;
+        btn.target = '_blank';
+        btn.textContent = 'Share this roast';
+        shareWrap.innerHTML = '';
+        shareWrap.appendChild(btn);
       } catch (e) {
-        console.error('[share card]', e);
+        console.error('[share]', e);
       }
 
       // Score
