@@ -1111,7 +1111,7 @@ const HTML = `<!DOCTYPE html>
     async function roastGithub() {
       const url = document.getElementById('githubUrl').value.trim();
       // Extract repo name for burncard subject
-      const repoMatch = url.match(/github\.com\/([^/]+\/[^/]+)/);
+      const repoMatch = url.match(/github\\.com\\/([^/]+\\/[^/]+)/);
       lastSubject = repoMatch ? repoMatch[1] : 'GitHub repo';
       const btn = document.getElementById('roastRepoBtn');
       const status = document.getElementById('githubStatus');
