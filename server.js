@@ -1198,21 +1198,34 @@ const HTML = `<!DOCTYPE html>
           + '&score=' + cardScore
           + '&subject=' + encodeURIComponent(cardSubject);
 
+        // Text card — part of results
+        wrap.innerHTML = '<div class="share-card">'
+          + '<div class="share-card-top">'
+          + '<span class="share-card-badge">CYNICAL SALLY CLI</span>'
+          + '</div>'
+          + '<div class="share-card-sneer">"' + escapeHtml(cardSneer) + '"</div>'
+          + '<div class="share-card-meta">'
+          + '<span class="share-card-score" style="color:' + scoreColor + '">' + cardScore + '/10</span>'
+          + '<span>' + escapeHtml(cardSubject) + '</span>'
+          + '<span>npm install -g @cynicalsally/cli</span>'
+          + '</div>'
+          + '</div>';
+
+        // Burncard PNG — shareable viral image
         var cardLink = document.createElement('a');
-        cardLink.className = 'share-card';
         cardLink.href = burncardUrl;
         cardLink.target = '_blank';
+        cardLink.style.cssText = 'display:block;margin-top:1rem;border-radius:10px;overflow:hidden;border:1px solid #e8503a33;transition:all 0.3s';
         var cardImg = document.createElement('img');
         cardImg.src = burncardUrl;
         cardImg.alt = 'Cynical Sally CLI Burncard';
-        cardImg.style.cssText = 'width:100%;border-radius:8px;display:block';
-        cardImg.onerror = function() { wrap.style.display = 'none'; };
+        cardImg.style.cssText = 'width:100%;display:block';
+        cardImg.onerror = function() { cardLink.style.display = 'none'; };
         cardLink.appendChild(cardImg);
         var cardHint = document.createElement('div');
-        cardHint.style.cssText = 'text-align:center;padding:0.5rem;font-size:0.7rem;color:#555';
-        cardHint.textContent = 'Share this roast';
+        cardHint.style.cssText = 'text-align:center;padding:0.5rem;font-size:0.65rem;color:#444;background:#111';
+        cardHint.textContent = 'Click to open full size — share your roast';
         cardLink.appendChild(cardHint);
-        wrap.innerHTML = '';
         wrap.appendChild(cardLink);
       } catch (e) {
         console.error('[share card]', e);
