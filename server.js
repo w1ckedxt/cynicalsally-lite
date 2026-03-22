@@ -211,7 +211,7 @@ const server = createServer(async (req, res) => {
 
       if (!looksLikeCode(code)) {
         res.writeHead(400, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ error: "That doesn't look like code. Sally only reviews actual code here. Want her opinion on other things? Visit cynicalsally.com or grab the Chrome Extension." }));
+        res.end(JSON.stringify({ error: "Yeah, that's not code. I don't do bedtime stories. If you want me to roast your non-code disasters, go to cynicalsally.com or get the Chrome Extension. I'm versatile like that." }));
         return;
       }
 
