@@ -17,6 +17,14 @@ const TOOL_IMAGES = {
 const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
 const MAX_CODE_LENGTH = 500 * 1024; // 500KB max paste
+const MAX_GITHUB_FILES = 20; // Max files to fetch from a repo
+const MAX_FILE_SIZE = 50 * 1024; // 50KB per file from GitHub
+const CODE_EXTENSIONS = new Set([
+  ".js", ".ts", ".tsx", ".jsx", ".py", ".rb", ".go", ".rs", ".java",
+  ".c", ".cpp", ".h", ".cs", ".php", ".swift", ".kt", ".scala",
+  ".vue", ".svelte", ".css", ".scss", ".html", ".sql", ".sh",
+  ".yaml", ".yml", ".json", ".toml", ".env.example",
+]);
 const INSTANCE_DEVICE_ID = `lite-${randomUUID()}`; // One ID per deployed instance — quota tracks on this
 
 /**
@@ -43,9 +51,65 @@ function parseBody(req) {
 }
 
 function splitCodeToFiles(code, filename) {
-  // If user provides a filename, use it. Otherwise detect language and use generic name.
   const name = filename || "paste.txt";
   return [{ path: name, content: code }];
+}
+
+function parseGitHubUrl(url) {
+  // Supports: github.com/owner/repo, github.com/owner/repo/tree/branch/path
+  const match = url.match(/github\.com\/([^/]+)\/([^/]+)/);
+  if (!match) return null;
+  const owner = match[1];
+  const repo = match[2].replace(/\.git$/, "");
+  // Extract optional path from /tree/branch/path
+  const treeParts = url.match(/\/tree\/[^/]+\/(.+)/);
+  const path = treeParts ? treeParts[1] : "";
+  return { owner, repo, path };
+}
+
+async function fetchGitHubFiles(owner, repo, path) {
+  const apiUrl = path
+    ? `https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`
+    : `https://api.github.com/repos/${owner}/${repo}/git/trees/HEAD?recursive=1`;
+
+  const treeRes = await fetch(apiUrl, {
+    headers: { "Accept": "application/vnd.github+json", "User-Agent": "SallyLite/1.0" },
+  });
+
+  if (!treeRes.ok) {
+    if (treeRes.status === 404) throw new Error("Repository not found. Make sure it's public.");
+    throw new Error(`GitHub API error: ${treeRes.status}`);
+  }
+
+  const treeData = await treeRes.json();
+  if (!treeData.tree) throw new Error("Could not read repository tree.");
+
+  // Filter to code files, skip large ones, respect path prefix
+  const codeFiles = treeData.tree
+    .filter((f) => {
+      if (f.type !== "blob") return false;
+      if (f.size > MAX_FILE_SIZE) return false;
+      if (path && !f.path.startsWith(path)) return false;
+      const ext = "." + f.path.split(".").pop();
+      return CODE_EXTENSIONS.has(ext);
+    })
+    .sort((a, b) => b.size - a.size) // prioritize larger (more interesting) files
+    .slice(0, MAX_GITHUB_FILES);
+
+  if (codeFiles.length === 0) throw new Error("No code files found in this repository.");
+
+  // Fetch each file's content
+  const files = await Promise.all(
+    codeFiles.map(async (f) => {
+      const rawUrl = `https://raw.githubusercontent.com/${owner}/${repo}/HEAD/${f.path}`;
+      const rawRes = await fetch(rawUrl, { headers: { "User-Agent": "SallyLite/1.0" } });
+      if (!rawRes.ok) return null;
+      const content = await rawRes.text();
+      return { path: f.path, content };
+    })
+  );
+
+  return files.filter(Boolean);
 }
 
 const server = createServer(async (req, res) => {
@@ -134,6 +198,51 @@ const server = createServer(async (req, res) => {
       console.error("[review proxy]", err.message);
       res.writeHead(500, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: "Something went wrong. Try again." }));
+    }
+    return;
+  }
+
+  // GitHub repo review
+  if (req.method === "POST" && req.url === "/api/review-github") {
+    try {
+      const body = JSON.parse(await parseBody(req));
+      const { url, lang, tone } = body;
+
+      if (!url || typeof url !== "string") {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Paste a GitHub URL first." }));
+        return;
+      }
+
+      const parsed = parseGitHubUrl(url);
+      if (!parsed) {
+        res.writeHead(400, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "That doesn't look like a GitHub URL. Try github.com/owner/repo" }));
+        return;
+      }
+
+      const files = await fetchGitHubFiles(parsed.owner, parsed.repo, parsed.path);
+
+      const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          files,
+          mode: "quick",
+          deviceId: INSTANCE_DEVICE_ID,
+          lang: lang || "en",
+          tone: tone || "cynical",
+        }),
+      });
+
+      const result = await apiRes.json();
+      res.writeHead(apiRes.status, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(result));
+    } catch (err) {
+      console.error("[github review]", err.message);
+      const status = err.message.includes("not found") ? 404 : 500;
+      res.writeHead(status, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: err.message || "Something went wrong. Try again." }));
     }
     return;
   }
@@ -238,6 +347,59 @@ const HTML = `<!DOCTYPE html>
     .quota-badge .count { color: #e8503a; font-weight: 600; }
     .quota-badge.exhausted { border-color: #ef444444; }
     .quota-badge.exhausted .count { color: #ef4444; }
+
+    /* Mode toggle */
+    .mode-toggle {
+      display: flex;
+      gap: 0;
+      margin-bottom: 1rem;
+      background: #1a1a1a;
+      border: 1px solid #2a2a2a;
+      border-radius: 6px;
+      overflow: hidden;
+      width: fit-content;
+    }
+    .mode-btn {
+      padding: 0.5rem 1.2rem;
+      background: transparent;
+      border: none;
+      color: #666;
+      font-family: inherit;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .mode-btn.active {
+      background: #e8503a;
+      color: white;
+    }
+    .mode-btn:hover:not(.active) { color: #ccc; }
+
+    /* GitHub URL input */
+    .github-input-wrap {
+      display: none;
+      margin-bottom: 1rem;
+    }
+    .github-input-wrap.visible { display: block; }
+    .github-input {
+      width: 100%;
+      padding: 1rem;
+      background: #111;
+      border: 1px solid #2a2a2a;
+      border-radius: 8px;
+      color: #e0e0e0;
+      font-family: inherit;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .github-input:focus { border-color: #e8503a44; }
+    .github-input::placeholder { color: #333; }
+    .github-hint {
+      margin-top: 0.4rem;
+      font-size: 0.7rem;
+      color: #444;
+    }
 
     /* Editor */
     .editor-wrap {
@@ -625,7 +787,17 @@ const HTML = `<!DOCTYPE html>
       <span class="quota-badge" id="quotaBadge"><span class="count" id="quotaCount"></span></span>
     </div>
 
-    <div class="editor-wrap">
+    <div class="mode-toggle">
+      <button class="mode-btn active" id="modePaste" onclick="setMode('paste')">Paste Code</button>
+      <button class="mode-btn" id="modeGithub" onclick="setMode('github')">GitHub Repo</button>
+    </div>
+
+    <div class="github-input-wrap" id="githubWrap">
+      <input type="text" class="github-input" id="githubUrl" placeholder="https://github.com/owner/repo" spellcheck="false">
+      <p class="github-hint">Paste a public GitHub repo URL. Sally will fetch and review the codebase.</p>
+    </div>
+
+    <div class="editor-wrap" id="editorWrap">
       <div class="filename-bar">
         <span class="dot dot-red"></span>
         <span class="dot dot-yellow"></span>
@@ -749,7 +921,23 @@ const HTML = `<!DOCTYPE html>
   </div>
 
   <script>
+    let currentMode = 'paste';
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById('modePaste').className = mode === 'paste' ? 'mode-btn active' : 'mode-btn';
+      document.getElementById('modeGithub').className = mode === 'github' ? 'mode-btn active' : 'mode-btn';
+      document.getElementById('editorWrap').style.display = mode === 'paste' ? 'block' : 'none';
+      document.getElementById('githubWrap').className = mode === 'github' ? 'github-input-wrap visible' : 'github-input-wrap';
+      document.getElementById('roastBtn').textContent = mode === 'paste' ? 'Roast My Code' : 'Roast This Repo';
+    }
+
     async function roast() {
+      if (currentMode === 'github') return roastGithub();
+      return roastPaste();
+    }
+
+    async function roastPaste() {
       const code = document.getElementById('code').value.trim();
       const filename = document.getElementById('filename').value.trim();
       const btn = document.getElementById('roastBtn');
@@ -775,10 +963,47 @@ const HTML = `<!DOCTYPE html>
         });
 
         const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
-        if (!res.ok) {
-          throw new Error(data.error || 'Something went wrong');
-        }
+        renderResult(data);
+        showQuota(data.quota);
+        results.className = 'results visible';
+        results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        status.textContent = '';
+      } catch (err) {
+        status.textContent = err.message;
+        status.className = 'status error';
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function roastGithub() {
+      const url = document.getElementById('githubUrl').value.trim();
+      const btn = document.getElementById('roastBtn');
+      const status = document.getElementById('status');
+      const results = document.getElementById('results');
+
+      if (!url) {
+        status.textContent = 'Paste a GitHub URL first.';
+        status.className = 'status error';
+        return;
+      }
+
+      btn.disabled = true;
+      status.textContent = 'Sally is cloning and judging the repo...';
+      status.className = 'status';
+      results.className = 'results';
+
+      try {
+        const res = await fetch('/api/review-github', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
         renderResult(data);
         showQuota(data.quota);
