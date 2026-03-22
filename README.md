@@ -37,7 +37,7 @@ Sally Lite is a thin client. All the heavy lifting happens in Sally's back offic
 
 ## Quick Start
 
-Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables. Nothing to configure. Your own Sally Lite instance will be live in under a minute.
+Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables. Nothing to configure.
 
 ---
 
@@ -59,12 +59,7 @@ Sally Lite (this repo)              Sally's Back Office
 
 ## Environment Variables
 
-All preconfigured in `render.yaml`. No manual setup needed.
-
-| Variable | Description |
-|----------|-------------|
-| `SALLY_API_URL` | Sally's backend endpoint (preconfigured) |
-| `PORT` | Server port (set by Render automatically) |
+No manual setup needed. `SALLY_API_URL` is preconfigured in `render.yaml`. `PORT` is set by Render automatically.
 
 ---
 
