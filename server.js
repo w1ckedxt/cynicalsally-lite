@@ -699,8 +699,8 @@ const HTML = `<!DOCTYPE html>
     }
     .cta-card {
       text-decoration: none;
-      border-color: #e8503a55 !important;
-      box-shadow: 0 0 24px rgba(232, 80, 58, 0.15);
+      border-color: #d9770655 !important;
+      box-shadow: 0 0 24px rgba(217, 119, 6, 0.15);
       transition: box-shadow 0.3s, border-color 0.3s;
     }
     .cta-card .tool-card-img {
@@ -711,16 +711,18 @@ const HTML = `<!DOCTYPE html>
       object-position: center center;
     }
     .cta-card:hover {
-      border-color: #e8503a88 !important;
-      box-shadow: 0 0 36px rgba(232, 80, 58, 0.3);
+      border-color: #f59e0b88 !important;
+      box-shadow: 0 0 36px rgba(245, 158, 11, 0.3);
       transform: none;
     }
+    .cta-card .tool-label { color: #f59e0b !important; }
+    .cta-card .tool-card-name { color: #f59e0b; }
     .cta-card-badge {
       display: inline-block;
       padding: 0.15rem 0.5rem;
-      background: linear-gradient(135deg, #e8503a, #c44030);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       border-radius: 4px;
-      color: #fff;
+      color: #000;
       font-size: 0.65rem;
       font-weight: 800;
       letter-spacing: 0.08em;
@@ -738,7 +740,7 @@ const HTML = `<!DOCTYPE html>
     }
     .cta-card-list li::before {
       content: "\\2713 ";
-      color: #22c55e;
+      color: #f59e0b;
       margin-right: 0.4rem;
     }
     .cta-card-btn {
@@ -746,12 +748,12 @@ const HTML = `<!DOCTYPE html>
       text-align: center;
       margin-top: auto;
       padding: 0.7rem 1.5rem;
-      background: linear-gradient(135deg, #e8503a, #c44030);
+      background: linear-gradient(135deg, #f59e0b, #d97706);
       border-radius: 8px;
-      color: white;
+      color: #000;
       font-family: inherit;
       font-size: 0.9rem;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     .result-header {
@@ -1231,17 +1233,18 @@ const HTML = `<!DOCTYPE html>
           <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
         </div>
       </div>
-      <a href="https://cynicalsally.com/en/fullsuite" target="_blank" class="tool-card cta-card">
+      <a href="https://github.com/w1ckedxt/cynicalsally-cli" target="_blank" class="tool-card cta-card">
         <div class="tool-card-img"><img src="/fullsuitebanner.png" alt="Sally Full Suite" loading="lazy"></div>
-        <span class="tool-label" style="color:#e8503a">FULL SUITE</span>
+        <span class="tool-label" style="color:#f59e0b">FULL SUITE</span>
         <div class="tool-card-body">
           <div class="tool-card-top"><span class="cta-card-badge">PRO</span> <span class="tool-card-name">Get the Full Suite</span></div>
           <ul class="cta-card-list">
             <li>6 specialized CLI tools</li>
             <li>Unlimited daily reviews</li>
-            <li>Scorecard + evidence-backed issues</li>
+            <li>0&ndash;10 scorecard + evidence-backed issues</li>
             <li>Step-by-step actionable fixes</li>
-            <li>PDF reports + Chrome Extension</li>
+            <li>Downloadable PDF reports</li>
+            <li>SuperClub: Chrome Extension + web access</li>
             <li>No ads, no sugarcoating</li>
           </ul>
           <div class="cta-card-btn">Get Sally CLI &rarr;</div>
