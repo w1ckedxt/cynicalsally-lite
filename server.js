@@ -655,6 +655,31 @@ const HTML = `<!DOCTYPE html>
     .issue-desc { color: #888; margin-top: 0.25rem; }
     .issue-fix { color: #22c55e; margin-top: 0.25rem; }
 
+    /* Burncard */
+    .burncard {
+      margin-bottom: 1.5rem;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid #e8503a33;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .burncard:hover {
+      border-color: #e8503a66;
+      box-shadow: 0 0 30px rgba(232, 80, 58, 0.15);
+    }
+    .burncard img {
+      width: 100%;
+      display: block;
+    }
+    .burncard-hint {
+      text-align: center;
+      padding: 0.4rem;
+      background: #111;
+      font-size: 0.65rem;
+      color: #444;
+    }
+
     .endquotes {
       display: flex;
       gap: 1rem;
@@ -906,6 +931,7 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="results" id="results">
+      <div id="burncardWrap"></div>
       <div class="result-header">
         <h2>&#9760; Sally's Verdict</h2>
         <span class="score-badge" id="scoreBadge"></span>
@@ -1042,6 +1068,7 @@ const HTML = `<!DOCTYPE html>
     async function roast() {
       const code = document.getElementById('code').value.trim();
       const filename = document.getElementById('filename').value.trim();
+      lastSubject = filename || 'your pasted code';
       const btn = document.getElementById('roastBtn');
       const status = document.getElementById('status');
       const results = document.getElementById('results');
@@ -1083,6 +1110,9 @@ const HTML = `<!DOCTYPE html>
 
     async function roastGithub() {
       const url = document.getElementById('githubUrl').value.trim();
+      // Extract repo name for burncard subject
+      const repoMatch = url.match(/github\.com\/([^/]+\/[^/]+)/);
+      lastSubject = repoMatch ? repoMatch[1] : 'GitHub repo';
       const btn = document.getElementById('roastRepoBtn');
       const status = document.getElementById('githubStatus');
       const results = document.getElementById('results');
@@ -1122,8 +1152,24 @@ const HTML = `<!DOCTYPE html>
       }
     }
 
+    let lastSubject = '';
+
     function renderResult(data) {
       const { data: d, voice, meta } = data;
+
+      // Burncard — generate image URL and show at top
+      const burncardWrap = document.getElementById('burncardWrap');
+      const cardSubject = lastSubject || 'YOUR CODE';
+      const cardSneer = encodeURIComponent(voice.hardest_sneer || '');
+      const cardScore = d.score ? d.score.toFixed(1) : '';
+      const cardUrl = '${SALLY_API_URL}/api/v1/share-card?source=cli&lang=en'
+        + '&sneer=' + cardSneer
+        + '&score=' + cardScore
+        + '&subject=' + encodeURIComponent(cardSubject);
+      burncardWrap.innerHTML = '<div class="burncard" onclick="window.open(\\'' + cardUrl + '\\', \\'_blank\\')">'
+        + '<img src="' + cardUrl + '" alt="Sally CLI Burncard" loading="eager">'
+        + '<div class="burncard-hint">Click to open full size — share your roast</div>'
+        + '</div>';
 
       // Score
       const score = d.score;
