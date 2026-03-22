@@ -575,9 +575,9 @@ const HTML = `<!DOCTYPE html>
     .results.visible { display: block; }
 
     .result-cards {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 1.5rem;
-      align-items: stretch;
     }
     .verdict-card, .burncard-card {
       flex: 1;
@@ -591,6 +591,7 @@ const HTML = `<!DOCTYPE html>
     .verdict-card {
       overflow: hidden;
       position: relative;
+      min-height: 0;
     }
     .burncard-card {
       padding: 0;
@@ -1001,7 +1002,7 @@ const HTML = `<!DOCTYPE html>
     @media (max-width: 600px) {
       .container { padding: 1rem; }
       .endquotes { flex-direction: column; }
-      .result-cards { flex-direction: column; }
+      .result-cards { grid-template-columns: 1fr; }
     }
   </style>
 </head>
