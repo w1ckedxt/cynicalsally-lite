@@ -1132,11 +1132,33 @@ const HTML = `<!DOCTYPE html>
       badge.className = 'score-badge ' + (score < 4 ? 'score-low' : score < 7 ? 'score-mid' : 'score-high');
       document.getElementById('scoreBar').style.width = (score * 10) + '%';
 
-      // Roast
-      document.getElementById('roastText').innerHTML = voice.roast
-        .split('\\n\\n')
-        .map(p => '<p style="margin-bottom:0.75rem">' + escapeHtml(p) + '</p>')
-        .join('');
+      // Roast — render as sections if messages available, fallback to plain text
+      const roastEl = document.getElementById('roastText');
+      if (d.messages && d.messages.length > 0) {
+        roastEl.innerHTML = d.messages.map(m => {
+          if (m.type === 'intro') {
+            return '<p style="margin-bottom:1rem;color:#ccc;font-size:0.9rem">' + escapeHtml(m.text) + '</p>';
+          }
+          if (m.type === 'observation' && m.title) {
+            return '<div style="margin-bottom:1.25rem">'
+              + '<h4 style="color:#e8503a;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.4rem">' + escapeHtml(m.title) + '</h4>'
+              + '<p style="color:#bbb;line-height:1.7">' + escapeHtml(m.text) + '</p>'
+              + '</div>';
+          }
+          if (m.type === 'final') {
+            return '<div style="margin-top:1rem;padding-top:1rem;border-top:1px solid #2a2a2a">'
+              + '<p style="color:#e0e0e0;font-weight:500;line-height:1.7">' + escapeHtml(m.text) + '</p>'
+              + '</div>';
+          }
+          // Fallback for observations without title
+          return '<p style="margin-bottom:0.75rem;color:#bbb">' + escapeHtml(m.text) + '</p>';
+        }).join('');
+      } else {
+        roastEl.innerHTML = voice.roast
+          .split('\\n\\n')
+          .map(p => '<p style="margin-bottom:0.75rem">' + escapeHtml(p) + '</p>')
+          .join('');
+      }
 
       // Issues
       const issuesList = document.getElementById('issuesList');
