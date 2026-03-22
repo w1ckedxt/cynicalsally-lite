@@ -618,14 +618,34 @@ const HTML = `<!DOCTYPE html>
       height: auto;
       display: block;
     }
-    .share-label {
-      text-align: center;
-      padding: 0.75rem;
-      color: #888;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
+    .share-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
       background: #111;
       border-top: 1px solid #2a2a2a;
+      border-radius: 0 0 12px 12px;
+    }
+    .share-label {
+      color: #666;
+      font-size: 0.75rem;
+    }
+    .share-x-btn {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      background: #000;
+      border: 1px solid #333;
+      border-radius: 20px;
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .share-x-btn:hover {
+      background: #1a1a1a;
+      border-color: #555;
     }
     .roast-preview-wrap {
       position: relative;
@@ -1137,7 +1157,10 @@ const HTML = `<!DOCTYPE html>
         </div>
         <div class="burncard-card">
           <div id="shareWrap"></div>
-          <div class="share-label">Click to share &#8599;</div>
+          <div class="share-actions">
+            <span class="share-label">Click card for full size</span>
+            <a id="shareXBtn" href="#" target="_blank" class="share-x-btn">Share on &#120143; &rarr;</a>
+          </div>
         </div>
       </div>
 
@@ -1418,6 +1441,13 @@ const HTML = `<!DOCTYPE html>
         link.appendChild(img);
         shareWrap.innerHTML = '';
         shareWrap.appendChild(link);
+        // Build X/Twitter share URL
+        var tweetScore = d.score ? d.score.toFixed(1) + '/10' : '';
+        var tweetSneer = voice.hardest_sneer || '';
+        var tweetText = 'Sally roasted my code: ' + tweetScore + '\\n\\n"' + tweetSneer + '"\\n\\nGet roasted: cynicalsally.com';
+        var xUrl = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(tweetText);
+        var xBtn = document.getElementById('shareXBtn');
+        if (xBtn) { xBtn.href = xUrl; }
       } catch (e) {
         console.error('[share]', e);
       }
