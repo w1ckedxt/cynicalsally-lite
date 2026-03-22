@@ -580,23 +580,23 @@ const HTML = `<!DOCTYPE html>
       gap: 1.5rem;
     }
     .verdict-card, .burncard-card {
-      flex: 1;
       background: #111;
       border: 1px solid #2a2a2a;
       border-radius: 12px;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      aspect-ratio: 9 / 16;
     }
     .verdict-card {
       overflow: hidden;
       position: relative;
-      min-height: 0;
     }
     .burncard-card {
       padding: 0;
       overflow: hidden;
       background: transparent;
+      border: none;
     }
     .burncard-card #shareWrap {
       flex: 1;
@@ -689,6 +689,51 @@ const HTML = `<!DOCTYPE html>
       border-top: 1px solid #2a2a2a;
       border-radius: 0;
     }
+    .cta-card {
+      background: linear-gradient(135deg, #1a0f0a, #111) !important;
+      border-color: #e8503a44 !important;
+    }
+    .cta-card-inner {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+    .cta-card-title {
+      color: #e8503a;
+      font-size: 1.2rem;
+      margin: 0 0 1rem;
+    }
+    .cta-card-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+      flex: 1;
+    }
+    .cta-card-list li {
+      color: #bbb;
+      font-size: 0.8rem;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid #2a2a2a;
+    }
+    .cta-card-list li::before {
+      content: "\\2713 ";
+      color: #22c55e;
+      margin-right: 0.4rem;
+    }
+    .cta-card-btn {
+      display: block;
+      text-align: center;
+      padding: 0.75rem 1.5rem;
+      background: linear-gradient(135deg, #e8503a, #c44030);
+      border-radius: 8px;
+      color: white;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .cta-card-btn:hover { opacity: 0.85; }
 
     .result-header {
       display: flex;
@@ -1167,10 +1212,22 @@ const HTML = `<!DOCTYPE html>
           <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
         </div>
       </div>
-    </div>
-
-    <div class="cta-bottom">
-      <a href="https://github.com/w1ckedxt/cynicalsally-cli" target="_blank">Get Sally CLI &rarr;</a>
+      <div class="tool-card cta-card">
+        <div class="cta-card-inner">
+          <h3 class="cta-card-title">Get the Full Suite</h3>
+          <ul class="cta-card-list">
+            <li>6 specialized CLI tools</li>
+            <li>Unlimited daily reviews</li>
+            <li>0&ndash;10 scorecard breakdown</li>
+            <li>Every issue backed with evidence</li>
+            <li>Step-by-step actionable fixes</li>
+            <li>Downloadable PDF reports</li>
+            <li>Chrome Extension included</li>
+            <li>No ads, no sugarcoating</li>
+          </ul>
+          <a href="https://cynicalsally.com/en/fullsuite" target="_blank" class="cta-card-btn">Get Sally CLI &rarr;</a>
+        </div>
+      </div>
     </div>
 
     <div class="footer">
