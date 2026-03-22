@@ -616,6 +616,27 @@ const HTML = `<!DOCTYPE html>
       background: #111;
       border-top: 1px solid #2a2a2a;
     }
+    .roast-preview-wrap {
+      position: relative;
+      max-height: 220px;
+      overflow: hidden;
+      flex: 1;
+      margin-top: 0.5rem;
+    }
+    .roast-preview {
+      color: #ccc;
+      font-size: 0.85rem;
+      line-height: 1.7;
+    }
+    .roast-fade {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(transparent, #111);
+      pointer-events: none;
+    }
     .verdict-expand, .verdict-collapse {
       display: flex;
       align-items: center;
@@ -822,7 +843,7 @@ const HTML = `<!DOCTYPE html>
     /* Bento grid — asymmetric, editorial, premium */
     .tool-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
       grid-auto-rows: auto;
       gap: 1rem;
       margin-bottom: 2.5rem;
@@ -1027,6 +1048,10 @@ const HTML = `<!DOCTYPE html>
           </div>
           <div class="score-bar"><div class="score-bar-fill" id="scoreBar"></div></div>
           <div class="sneer-hero" id="sneerHero"></div>
+          <div class="roast-preview-wrap">
+            <div class="roast-preview" id="roastPreview"></div>
+            <div class="roast-fade"></div>
+          </div>
           <div class="verdict-expand" id="verdictExpand" onclick="toggleFullReview()">
             <span class="expand-icon" id="expandIcon">&#9660;</span> Read full review
           </div>
@@ -1075,7 +1100,7 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="tool-grid">
-      <div class="tool-card hero">
+      <div class="tool-card">
         <div class="tool-card-img"><img src="/tool-prreview.png" alt="Sally at her desk, gold nameplate reading PR REVIEW" loading="lazy"></div>
         <span class="tool-label">PR Review</span>
         <div class="tool-card-body">
@@ -1339,6 +1364,9 @@ const HTML = `<!DOCTYPE html>
           .map(p => '<p style="margin-bottom:0.75rem">' + escapeHtml(p) + '</p>')
           .join('');
       }
+
+      // Preview: clone roast into verdict card preview
+      document.getElementById('roastPreview').innerHTML = roastEl.innerHTML;
 
       // Issues
       const issuesList = document.getElementById('issuesList');
