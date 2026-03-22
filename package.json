@@ -2,13 +2,16 @@
   "name": "cynicalsally-lite",
   "version": "1.0.0",
   "type": "module",
-  "description": "Sally Lite — AI code reviewer with zero filter. Deploy on Render in one click.",
+  "description": "Sally Lite — Code reviewer with zero filter. Deploy on Render in one click.",
   "main": "server.js",
+  "repository": "https://github.com/w1ckedxt/cynicalsally-lite",
+  "bugs": "https://github.com/w1ckedxt/cynicalsally-lite/issues",
+  "homepage": "https://cynicalsally.com",
   "scripts": {
     "start": "node server.js",
     "cli": "node index.js"
   },
-  "keywords": ["code-review", "ai", "cli", "render", "developer-tools"],
+  "keywords": ["code-review", "cli", "render", "developer-tools", "linter"],
   "author": "CynicalSally",
   "license": "MIT",
   "dependencies": {
