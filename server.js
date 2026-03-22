@@ -266,12 +266,23 @@ const server = createServer(async (req, res) => {
       }
 
       const files = await fetchGitHubFiles(parsed.owner, parsed.repo, parsed.path);
+      console.log(`[github review] Fetched ${files.length} files from ${parsed.owner}/${parsed.repo}`);
+
+      // Trim total payload to stay under backend limits
+      let totalSize = 0;
+      const trimmedFiles = [];
+      for (const f of files) {
+        if (totalSize + f.content.length > MAX_CODE_LENGTH) break;
+        trimmedFiles.push(f);
+        totalSize += f.content.length;
+      }
+      console.log(`[github review] Sending ${trimmedFiles.length} files (${Math.round(totalSize / 1024)}KB)`);
 
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          files,
+          files: trimmedFiles,
           mode: "quick",
           deviceId: INSTANCE_DEVICE_ID,
           lang: lang || "en",
@@ -283,9 +294,9 @@ const server = createServer(async (req, res) => {
       res.writeHead(apiRes.status, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
     } catch (err) {
-      console.error("[github review]", err.message);
-      const status = err.message.includes("not found") ? 404 : 500;
-      res.writeHead(status, { "Content-Type": "application/json" });
+      console.error("[github review] Error:", err);
+      const code = err.message?.includes("not found") ? 404 : 500;
+      res.writeHead(code, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: err.message || "Something went wrong. Try again." }));
     }
     return;
