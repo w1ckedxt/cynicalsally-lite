@@ -588,6 +588,11 @@ const HTML = `<!DOCTYPE html>
       display: flex;
       flex-direction: column;
     }
+    .verdict-card {
+      max-height: 700px;
+      overflow: hidden;
+      position: relative;
+    }
     .burncard-card {
       padding: 0;
       overflow: hidden;
@@ -628,20 +633,31 @@ const HTML = `<!DOCTYPE html>
       line-height: 1.7;
     }
     .roast-fade {
+      display: none;
+    }
+    .verdict-expand {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 100px;
-      background: linear-gradient(transparent, #111);
-      pointer-events: none;
-    }
-    .verdict-expand, .verdict-collapse {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.4rem;
-      margin-top: auto;
+      padding: 2.5rem 0.75rem 1rem;
+      background: linear-gradient(transparent, #111 60%);
+      color: #e8503a;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: color 0.2s;
+      z-index: 2;
+    }
+    .verdict-collapse {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
       padding: 0.75rem;
       color: #e8503a;
       font-size: 0.85rem;
