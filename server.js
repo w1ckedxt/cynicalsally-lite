@@ -5,6 +5,7 @@ import { randomUUID } from "node:crypto";
 const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
 const PIXEL_SALLY = readFileSync(new URL("./pixelsally-cursedqueen.png", import.meta.url));
 const SALLY_HEAD = readFileSync(new URL("./sally-head.png", import.meta.url));
+const FULLSUITE_BANNER = readFileSync(new URL("./fullsuitebanner.png", import.meta.url));
 const TOOL_IMAGES = {
   "brainstorm": readFileSync(new URL("./FULL-SUITE-BRAINSTORM.png", import.meta.url)),
   "explain": readFileSync(new URL("./FULL-SUITE-EXPLAIN.png", import.meta.url)),
@@ -176,6 +177,13 @@ const server = createServer(async (req, res) => {
   if (req.method === "GET" && req.url === "/sally-head.png") {
     res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
     res.end(SALLY_HEAD);
+    return;
+  }
+
+  // Serve fullsuite banner
+  if (req.method === "GET" && req.url === "/fullsuitebanner.png") {
+    res.writeHead(200, { "Content-Type": "image/png", "Cache-Control": "public, max-age=86400" });
+    res.end(FULLSUITE_BANNER);
     return;
   }
 
@@ -690,30 +698,36 @@ const HTML = `<!DOCTYPE html>
       border-radius: 0;
     }
     .cta-card {
-      background: linear-gradient(135deg, #1a0f0a, #111) !important;
-      border-color: #e8503a44 !important;
+      text-decoration: none;
+      border-color: #e8503a55 !important;
+      box-shadow: 0 0 24px rgba(232, 80, 58, 0.15);
+      transition: box-shadow 0.3s, border-color 0.3s;
     }
-    .cta-card-inner {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
+    .cta-card:hover {
+      border-color: #e8503a88 !important;
+      box-shadow: 0 0 36px rgba(232, 80, 58, 0.3);
+      transform: none;
     }
-    .cta-card-title {
-      color: #e8503a;
-      font-size: 1.2rem;
-      margin: 0 0 1rem;
+    .cta-card-badge {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      background: linear-gradient(135deg, #e8503a, #c44030);
+      border-radius: 4px;
+      color: #fff;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
     }
     .cta-card-list {
       list-style: none;
       padding: 0;
-      margin: 0 0 1.5rem;
-      flex: 1;
+      margin: 0.5rem 0 0;
     }
     .cta-card-list li {
       color: #bbb;
-      font-size: 0.8rem;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid #2a2a2a;
+      font-size: 0.78rem;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid #1a1a1a;
     }
     .cta-card-list li::before {
       content: "\\2713 ";
@@ -723,17 +737,15 @@ const HTML = `<!DOCTYPE html>
     .cta-card-btn {
       display: block;
       text-align: center;
-      padding: 0.75rem 1.5rem;
+      margin-top: auto;
+      padding: 0.7rem 1.5rem;
       background: linear-gradient(135deg, #e8503a, #c44030);
       border-radius: 8px;
       color: white;
       font-family: inherit;
       font-size: 0.9rem;
       font-weight: 600;
-      text-decoration: none;
-      transition: opacity 0.2s;
     }
-    .cta-card-btn:hover { opacity: 0.85; }
 
     .result-header {
       display: flex;
@@ -1212,22 +1224,22 @@ const HTML = `<!DOCTYPE html>
           <div class="tool-card-desc">Run your copy by me before your customers do, because they won't be this constructive about it.</div>
         </div>
       </div>
-      <div class="tool-card cta-card">
-        <div class="cta-card-inner">
-          <h3 class="cta-card-title">Get the Full Suite</h3>
+      <a href="https://cynicalsally.com/en/fullsuite" target="_blank" class="tool-card cta-card">
+        <div class="tool-card-img"><img src="/fullsuitebanner.png" alt="Sally Full Suite" loading="lazy"></div>
+        <span class="tool-label" style="color:#e8503a">FULL SUITE</span>
+        <div class="tool-card-body">
+          <div class="tool-card-top"><span class="cta-card-badge">PRO</span> <span class="tool-card-name">Get the Full Suite</span></div>
           <ul class="cta-card-list">
             <li>6 specialized CLI tools</li>
             <li>Unlimited daily reviews</li>
-            <li>0&ndash;10 scorecard breakdown</li>
-            <li>Every issue backed with evidence</li>
+            <li>Scorecard + evidence-backed issues</li>
             <li>Step-by-step actionable fixes</li>
-            <li>Downloadable PDF reports</li>
-            <li>Chrome Extension included</li>
+            <li>PDF reports + Chrome Extension</li>
             <li>No ads, no sugarcoating</li>
           </ul>
-          <a href="https://cynicalsally.com/en/fullsuite" target="_blank" class="cta-card-btn">Get Sally CLI &rarr;</a>
+          <div class="cta-card-btn">Get Sally CLI &rarr;</div>
         </div>
-      </div>
+      </a>
     </div>
 
     <div class="footer">
