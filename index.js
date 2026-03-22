@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 /**
- * Sally Lite — Thin client for AI code review.
+ * Sally Lite - Thin client for code review.
  * Collects files, calls the CynicalSally backend, displays results.
- * Contains NO prompts, NO AI logic — purely a client.
+ * Contains no prompts, no review logic. Purely a client.
  */
 
 import { program } from "commander";
@@ -263,7 +263,7 @@ async function submitReview(files, mode, deviceId, lang, tone) {
 
 program
   .name("sally")
-  .description("Sally Lite — AI code reviewer with zero filter")
+  .description("Sally Lite - Code reviewer with zero filter")
   .version("1.0.0");
 
 program

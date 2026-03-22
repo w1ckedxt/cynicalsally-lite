@@ -2,10 +2,10 @@
 
 ![Cynical Sally](sally-banner.png)
 
-> **"Because 'You're absolutely right' is probably absolutely wrong."** — Sally
+> **"Because 'You're absolutely right' is probably absolutely wrong."** - Sally
 
 **Free code reviewer. Zero filter. Zero sugarcoating.**
-Paste code or a GitHub URL, get a brutally honest review — scores, issues, fixes, and a personality that won't hold back.
+Paste your code or a GitHub URL, get a brutally honest review with scores, issues, fixes, and a personality that won't hold back.
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/w1ckedxt/cynicalsally-lite)
 
@@ -13,11 +13,11 @@ Paste code or a GitHub URL, get a brutally honest review — scores, issues, fix
 
 ## What is Sally Lite?
 
-Sally Lite is a free code review tool powered by [Cynical Sally](https://cynicalsally.com) — a senior engineer who reviews your code like she has time, opinions, and absolutely no reason to be polite.
+Sally Lite is a free code review tool powered by [Cynical Sally](https://cynicalsally.com). She reviews your code like a senior engineer who has time, opinions, and absolutely no reason to be polite.
 
 Paste code or a GitHub repo URL, get roasted in your browser. Deploy it on Render in one click.
 
-Sally Lite is a thin client — all the heavy lifting happens in Sally's back office. This repo contains no review logic, no prompts, no secrets. It just talks to the CynicalSally backend and displays the results.
+Sally Lite is a thin client. All the heavy lifting happens in Sally's back office. This repo contains no review logic, no prompts, no secrets. It just talks to the CynicalSally backend and displays the results.
 
 ---
 
@@ -25,11 +25,11 @@ Sally Lite is a thin client — all the heavy lifting happens in Sally's back of
 
 | | |
 |---|---|
-| **Scoring** | 0–10 code quality score with detailed breakdown |
+| **Scoring** | 0-10 code quality score with detailed breakdown |
 | **Observations** | Section-based analysis (architecture, naming, security, DRY, etc.) |
 | **Issues** | Severity-tagged: critical / major / minor |
 | **Fixes** | Actionable, step-by-step improvements |
-| **GitHub Roast** | Paste a repo URL — Sally fetches and reviews the codebase |
+| **GitHub Roast** | Paste a repo URL, Sally fetches and reviews the codebase |
 | **Burncard** | Shareable PNG card with your score and Sally's hardest sneer |
 | **Share on X** | One-click tweet your roast results |
 
@@ -37,9 +37,9 @@ Sally Lite is a thin client — all the heavy lifting happens in Sally's back of
 
 ## Quick Start
 
-### Deploy to Render (one click)
+### Deploy to Render
 
-Click the Deploy button above. That's it. `SALLY_API_URL` is preconfigured.
+Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables. Nothing to configure.
 
 ### Run locally
 
@@ -50,7 +50,7 @@ npm install
 npm start
 ```
 
-Open `http://localhost:3000` in your browser.
+Opens on `http://localhost:3000`.
 
 ---
 
@@ -71,6 +71,8 @@ Sally Lite (this repo)              Sally's Back Office
 ---
 
 ## Environment Variables
+
+Both are preconfigured in `render.yaml` for Render deployments. Only relevant if you run locally.
 
 | Variable | Description | Default |
 |----------|-------------|---------|
@@ -94,8 +96,8 @@ Sally Lite is free with daily limits (enforced by Sally's backend):
 
 ## Privacy
 
-- Your code is sent to the CynicalSally API for review
-- **Code is never stored** — processed in memory, discarded after response
+- Your code is sent to the CynicalSally backend for review
+- **Code is never stored.** Processed in memory, discarded after response
 - No telemetry beyond anonymous usage counts
 - Device ID stored locally for rate limiting only
 
@@ -107,7 +109,7 @@ Sally Lite is a free taste. The **Full Suite CLI** unlocks everything:
 
 - 6 specialized tools (roast, explain, refactor, brainstorm, frontend, marketing)
 - Unlimited daily reviews
-- 0–10 scorecard with evidence-backed issues
+- 0-10 scorecard with evidence-backed issues
 - Downloadable PDF reports
 - SuperClub: Chrome Extension + web access
 - No ads, no sugarcoating
@@ -122,4 +124,4 @@ This repo includes [`render.yaml`](render.yaml) for one-click deployment as a Re
 
 ## License
 
-MIT — see [LICENSE](LICENSE)
+MIT - see [LICENSE](LICENSE)
