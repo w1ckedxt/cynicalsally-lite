@@ -1,6 +1,6 @@
 # Cynical Sally Lite
 
-![Cynical Sally](sally-banner.png)
+![Cynical Sally](assets/sally-banner.png)
 
 > **"Because 'You're absolutely right' is probably absolutely wrong."** - Sally
 
@@ -11,11 +11,11 @@ Paste your code or a GitHub URL, get a brutally honest review with scores, issue
 
 ### Paste code, get roasted
 
-![Sally Lite clean state](sally-clean-state.png)
+![Sally Lite clean state](assets/sally-clean-state.png)
 
 ### Sally delivers the verdict
 
-![Sally Lite roast result](sally-roasted-state.png)
+![Sally Lite roast result](assets/sally-roasted-state.png)
 
 ---
 

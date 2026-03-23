@@ -2,17 +2,17 @@ import { createServer } from "node:http";
 import { readFileSync } from "node:fs";
 import { randomUUID, createHash } from "node:crypto";
 
-const BANNER = readFileSync(new URL("./sally-banner.png", import.meta.url));
-const PIXEL_SALLY = readFileSync(new URL("./pixelsally-cursedqueen.png", import.meta.url));
-const SALLY_HEAD = readFileSync(new URL("./sally-head.png", import.meta.url));
-const FULLSUITE_BANNER = readFileSync(new URL("./fullsuitebanner.png", import.meta.url));
+const BANNER = readFileSync(new URL("./assets/sally-banner.png", import.meta.url));
+const PIXEL_SALLY = readFileSync(new URL("./assets/pixelsally-cursedqueen.png", import.meta.url));
+const SALLY_HEAD = readFileSync(new URL("./assets/sally-head.png", import.meta.url));
+const FULLSUITE_BANNER = readFileSync(new URL("./assets/fullsuitebanner.png", import.meta.url));
 const TOOL_IMAGES = {
-  "brainstorm": readFileSync(new URL("./FULL-SUITE-BRAINSTORM.png", import.meta.url)),
-  "explain": readFileSync(new URL("./FULL-SUITE-EXPLAIN.png", import.meta.url)),
-  "refactor": readFileSync(new URL("./FULL-SUITE-REFACTOR.png", import.meta.url)),
-  "frontend": readFileSync(new URL("./FULL-SUITE-FRONTENDREVIEW.png", import.meta.url)),
-  "marketing": readFileSync(new URL("./FULL-SUITE-MARKETINGREVIEW.png", import.meta.url)),
-  "prreview": readFileSync(new URL("./FULL-SUITE-PRREVIEW.png", import.meta.url)),
+  "brainstorm": readFileSync(new URL("./assets/FULL-SUITE-BRAINSTORM.png", import.meta.url)),
+  "explain": readFileSync(new URL("./assets/FULL-SUITE-EXPLAIN.png", import.meta.url)),
+  "refactor": readFileSync(new URL("./assets/FULL-SUITE-REFACTOR.png", import.meta.url)),
+  "frontend": readFileSync(new URL("./assets/FULL-SUITE-FRONTENDREVIEW.png", import.meta.url)),
+  "marketing": readFileSync(new URL("./assets/FULL-SUITE-MARKETINGREVIEW.png", import.meta.url)),
+  "prreview": readFileSync(new URL("./assets/FULL-SUITE-PRREVIEW.png", import.meta.url)),
 };
 
 const PORT = process.env.PORT || 3000;
