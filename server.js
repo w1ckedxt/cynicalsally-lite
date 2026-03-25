@@ -18,6 +18,7 @@ const PIXEL_SALLY = readFileSync(new URL("./assets/pixelsally-cursedqueen.png", 
 const SALLY_HEAD = readFileSync(new URL("./assets/sally-head.png", import.meta.url));
 const FULLSUITE_BANNER = readFileSync(new URL("./assets/fullsuitebanner.png", import.meta.url));
 const SALLY_RENDER = readFileSync(new URL("./assets/SALLYXRENDER.png", import.meta.url));
+const FAVICON = readFileSync(new URL("./assets/favicon.ico", import.meta.url));
 const TOOL_IMAGES = {
   "brainstorm": readFileSync(new URL("./assets/FULL-SUITE-BRAINSTORM.png", import.meta.url)),
   "explain": readFileSync(new URL("./assets/FULL-SUITE-EXPLAIN.png", import.meta.url)),
@@ -93,6 +94,13 @@ const server = createServer(async (req, res) => {
   if (req.method === "GET" && req.url === "/health") {
     res.writeHead(200, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ status: "ok" }));
+    return;
+  }
+
+  // Serve favicon
+  if (req.method === "GET" && req.url === "/favicon.ico") {
+    res.writeHead(200, { "Content-Type": "image/x-icon", "Cache-Control": "public, max-age=604800" });
+    res.end(FAVICON);
     return;
   }
 
