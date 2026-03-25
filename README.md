@@ -7,7 +7,7 @@
 **Free code reviewer. Zero filter. Zero sugarcoating.**
 Paste your code or a GitHub URL, get a brutally honest review with scores, issues, fixes, and a personality that won't hold back.
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/w1ckedxt/cynicalsally-lite)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2Fw1ckedxt%2Fcynicalsally-lite&utm_source=github&utm_medium=referral&utm_campaign=cynical_sally)
 
 ### Paste code, get roasted
 
@@ -67,7 +67,11 @@ Sally Lite (this repo)              Sally's Back Office
 
 ## Environment Variables
 
-No manual setup needed. `SALLY_API_URL` is preconfigured in `render.yaml`. `PORT` is set by Render automatically.
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `SALLY_API_URL` | No | Preconfigured in `render.yaml` | Sally backend URL |
+| `PORT` | No | Set by Render | Server port |
+| `GITHUB_TOKEN` | No | — | GitHub PAT for higher rate limits on repo roasts (60/hr → 5,000/hr). Create a fine-grained token with zero permissions at GitHub → Settings → Developer Settings → Fine-grained tokens. |
 
 ---
 
