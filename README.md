@@ -1,6 +1,6 @@
 # Cynical Sally Lite
 
-![Cynical Sally](sally-banner.png)
+![Cynical Sally](assets/sally-banner.png)
 
 > **"Because 'You're absolutely right' is probably absolutely wrong."** - Sally
 
@@ -11,11 +11,11 @@ Paste your code or a GitHub URL, get a brutally honest review with scores, issue
 
 ### Paste code, get roasted
 
-![Sally Lite clean state](sally-clean-state.png)
+![Sally Lite clean state](assets/sally-clean-state.png)
 
 ### Sally delivers the verdict
 
-![Sally Lite roast result](sally-roasted-state.png)
+![Sally Lite roast result](assets/sally-roasted-state.png)
 
 ---
 
@@ -67,7 +67,11 @@ Sally Lite (this repo)              Sally's Back Office
 
 ## Environment Variables
 
-No manual setup needed. `SALLY_API_URL` is preconfigured in `render.yaml`. `PORT` is set by Render automatically.
+| Variable | Required | Default | Description |
+|---|---|---|---|
+| `SALLY_API_URL` | No | Preconfigured in `render.yaml` | Sally backend URL |
+| `PORT` | No | Set by Render | Server port |
+| `GITHUB_TOKEN` | No | — | GitHub PAT for higher rate limits on repo roasts (60/hr → 5,000/hr). Create a fine-grained token with zero permissions at GitHub → Settings → Developer Settings → Fine-grained tokens. |
 
 ---
 
