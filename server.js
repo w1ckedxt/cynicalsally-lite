@@ -1315,7 +1315,7 @@ const HTML = `<!DOCTYPE html>
     </div>
 
     <div class="footer">
-      <p>Powered by <a href="https://cynicalsally.com" target="_blank">CynicalSally</a> &middot; Running on <a href="https://render.com" target="_blank">Render</a></p>
+      <p>Powered by <a href="https://cynicalsally.com" target="_blank">CynicalSally</a> &middot; Running on <a href="https://www.render.com?utm_source=sally_website&utm_medium=referral&utm_campaign=cynical_sally" target="_blank">Render</a></p>
     </div>
   </div>
 
