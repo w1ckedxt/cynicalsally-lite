@@ -51,8 +51,9 @@ Sally Lite (deze repo)              CynicalSally Backend (cynicalsally-render)
 | GitHub-ready repo | ✅ DONE | README geverifieerd, geen AI branding, OSS compliant, klaar voor Render team |
 | Assets opgeschoond | ✅ DONE | PNGs naar assets/ folder, plan/ uit git tracking (feedback Shifra) |
 | Monolith refactor | ✅ DONE | server.js gesplit in server.js + lib/github.js + lib/html.js (feedback Shifra) |
-| Deploy to Render button | ✅ DONE | Op pagina zelf (boven + onder) met SALLYXRENDER.png + Shifra's UTM |
-| Window title update | ✅ DONE | "Sally Lite \| Same sharp feedback, simpler to run" (feedback Shifra) |
+| Deploy to Render button | ✅ DONE | Op pagina zelf (boven + onder) met SALLYXRENDER.png + UTM tracking |
+| Window title update | ✅ DONE | "Sally Lite \| Same sharp feedback, simpler to run" |
+| Favicon | ✅ DONE | favicon.ico van render repo, /favicon.ico route |
 
 ---
 
@@ -108,6 +109,9 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 - 2026-03-25: Safari ITP workaround (deviceId fallback auth + content script bridge)
 - 2026-03-25: Dynamic scoring categories per content type (44+ types, was hardcoded website)
 - 2026-03-25: Ethische regels uitgebreid (minderjarigen, PII, discriminatie, voedselveiligheid)
+- 2026-03-25: Favicon toegevoegd van render repo
+- 2026-03-25: Deploy copy fix ("on Render for free")
+- 2026-03-25: Git history opgeschoond (interne namen verwijderd uit commits)
 
 ---
 
