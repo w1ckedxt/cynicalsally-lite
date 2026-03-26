@@ -1,7 +1,7 @@
 # CYNICALSALLY-LITE — Project File
 
 > Source of truth voor Sally Lite.
-> Laatste update: 2026-03-26
+> Laatste update: 2026-03-26 (avond)
 
 ---
 
@@ -36,7 +36,7 @@ Sally Lite (deze repo)              CynicalSally Backend (cynicalsally-render)
 |-----------|--------|-------|
 | Web service (`server.js`) | ✅ DONE | HTML UI, proxy naar backend |
 | CLI tool (`index.js`) | ✅ DONE | File collection, terminal output |
-| Render Blueprint (`render.yaml`) | ✅ DONE | Web service, free tier |
+| Render Blueprint (`render.yaml`) | ✅ DONE | Web service, free tier, GITHUB_TOKEN env var |
 | README + deploy button | ✅ DONE | Funnel CTA's erin |
 | Render project aanmaken | 🔧 BEZIG | Thomas koppelt repo via Blueprint deploy |
 | Echte AI reviews | ✅ LIVE | Backend doet echte Claude reviews |
@@ -119,6 +119,10 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 - 2026-03-26: Desktop icons mix: meme + echte links (browser-aware Chrome/Safari extension, CLI, Sallyverse, Render)
 - 2026-03-26: SALLYXRENDER.png als Render partner icon met UTM tracking link + subtiel streepje
 - 2026-03-26: Render guest blog klaar — launch 1 april
+- 2026-03-26: GITHUB_TOKEN toegevoegd aan render.yaml blueprint (lege default, sync: false)
+- 2026-03-26: Smart 403 error messages: als geen token → hint om PAT toe te voegen in Render dashboard
+- 2026-03-26: README updated met GitHub Token setup instructies (optional, not required for deploy)
+- 2026-03-26: Cynical Sally LinkedIn profiel aangemaakt
 
 ---
 
