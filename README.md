@@ -45,7 +45,19 @@ Sally Lite is a thin client. All the heavy lifting happens in Sally's back offic
 
 ## Quick Start
 
-Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables. Nothing to configure.
+Click the Deploy to Render button above. The `render.yaml` Blueprint handles everything: service type, build command, start command, environment variables.
+
+### GitHub Token (optional)
+
+GitHub repo roasts work out of the box using the public API (60 requests/hr). If you hit the rate limit, Sally will tell you to add a token.
+
+The `GITHUB_TOKEN` environment variable is already created in your Render service — just fill it in:
+
+1. Go to your Render dashboard → your sally-lite service → **Environment** tab
+2. Find `GITHUB_TOKEN` and add your token
+3. Create a fine-grained token at [GitHub → Settings → Developer Settings → Fine-grained tokens](https://github.com/settings/personal-access-tokens/new) with **zero permissions** (public repo access is included by default)
+
+This increases the rate limit from 60 to 5,000 requests/hr.
 
 ---
 

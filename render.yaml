@@ -13,3 +13,6 @@ services:
     envVars:
       - key: SALLY_API_URL
         value: https://cynicalsally-web.onrender.com
+      - key: GITHUB_TOKEN
+        value: ""
+        sync: false
