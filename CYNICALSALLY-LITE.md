@@ -1,7 +1,7 @@
 # CYNICALSALLY-LITE — Project File
 
 > Source of truth voor Sally Lite.
-> Laatste update: 2026-03-25
+> Laatste update: 2026-03-26
 
 ---
 
@@ -83,10 +83,11 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 
 ## VOLGENDE STAPPEN
 
-1. Overleg met Shifra: deployers eigen GITHUB_TOKEN of via backend endpoint
-2. Blogpost van Shifra reviewen (zij draftet, input van Render team)
-3. Open Graph share page op backend (burncard PNG inline in tweets)
-4. Burncard design itereren na live feedback
+1. Blogpost live op 1 april samen met Render (guest blog by Thomas Geelens)
+2. Safari extension final review + submit naar Apple
+3. Extension store links invullen in desktop icons (Chrome Web Store + App Store)
+4. Open Graph share page op backend (burncard PNG inline in tweets)
+5. Burncard design itereren na live feedback
 
 ## CONTEXT
 
@@ -112,6 +113,12 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 - 2026-03-25: Favicon toegevoegd van render repo
 - 2026-03-25: Deploy copy fix ("on Render for free")
 - 2026-03-25: Git history opgeschoond (interne namen verwijderd uit commits)
+- 2026-03-26: GITHUB_TOKEN env var bevestigd — al ingebouwd, deployers voegen toe in Render dashboard
+- 2026-03-26: Vision cards blurred tekst verwijderd uit mockup-sallyverse.html (was leesbaar in source)
+- 2026-03-26: /sallyverse pagina gebouwd in cynicalsally-render (Next.js route, eigen CSS, scroll reveal)
+- 2026-03-26: Desktop icons mix: meme + echte links (browser-aware Chrome/Safari extension, CLI, Sallyverse, Render)
+- 2026-03-26: SALLYXRENDER.png als Render partner icon met UTM tracking link + subtiel streepje
+- 2026-03-26: Render guest blog klaar — launch 1 april
 
 ---
 
