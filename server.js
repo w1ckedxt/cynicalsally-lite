@@ -163,7 +163,8 @@ const server = createServer(async (req, res) => {
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/quips?type=code`, {
         headers: { "User-Agent": "SallyLite/1.0" },
       });
-      const result = await apiRes.json();
+      const text = await apiRes.text();
+      const result = JSON.parse(text);
       res.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "public, max-age=3600" });
       res.end(JSON.stringify(result));
     } catch {
@@ -216,12 +217,25 @@ const server = createServer(async (req, res) => {
       });
       clearTimeout(timeout);
 
-      const result = await apiRes.json();
+      const responseText = await apiRes.text();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch {
+        console.error(`[review proxy] Sally API returned non-JSON (status ${apiRes.status}): ${responseText.slice(0, 200)}`);
+        res.writeHead(502, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Sally's backend returned an unexpected response. Try again in a moment." }));
+        return;
+      }
       res.writeHead(apiRes.status, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
     } catch (err) {
       console.error("[review proxy]", err.message);
-      const msg = err.name === "AbortError" ? "Sally is taking too long. Try again in a moment." : "Something went wrong. Try again.";
+      const msg = err.name === "AbortError"
+        ? "Sally is taking too long. Try again in a moment."
+        : err.message?.includes("not valid JSON") || err.message?.includes("Unexpected token")
+          ? "Sally's backend returned an unexpected response. Try again in a moment."
+          : "Something went wrong. Try again.";
       res.writeHead(500, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: msg }));
     }
@@ -278,12 +292,25 @@ const server = createServer(async (req, res) => {
       });
       clearTimeout(timeout);
 
-      const result = await apiRes.json();
+      const responseText = await apiRes.text();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch {
+        console.error(`[github review] Sally API returned non-JSON (status ${apiRes.status}): ${responseText.slice(0, 200)}`);
+        res.writeHead(502, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Sally's backend returned an unexpected response. Try again in a moment." }));
+        return;
+      }
       res.writeHead(apiRes.status, { "Content-Type": "application/json" });
       res.end(JSON.stringify(result));
     } catch (err) {
       console.error("[github review] Error:", err);
-      const msg = err.name === "AbortError" ? "Sally is taking too long. Try again in a moment." : (err.message || "Something went wrong. Try again.");
+      const msg = err.name === "AbortError"
+        ? "Sally is taking too long. Try again in a moment."
+        : err.message?.includes("not valid JSON") || err.message?.includes("Unexpected token")
+          ? "Sally's backend returned an unexpected response. Try again in a moment."
+          : (err.message || "Something went wrong. Try again.");
       const code = err.message?.includes("not found") ? 404 : 500;
       res.writeHead(code, { "Content-Type": "application/json" });
       res.end(JSON.stringify({ error: msg }));
