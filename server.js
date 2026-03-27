@@ -244,6 +244,35 @@ const server = createServer(async (req, res) => {
     return;
   }
 
+  // API proxy — Create shareable card link
+  if (req.method === "POST" && req.url === "/api/card") {
+    try {
+      const body = await parseBody(req);
+      const proxyOrigin = INSTANCE_ORIGIN || req.headers.origin || `https://${req.headers.host}`;
+      const apiRes = await fetch(`${SALLY_API_URL}/api/v1/card`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Origin": proxyOrigin },
+        body,
+      });
+      const responseText = await apiRes.text();
+      let result;
+      try {
+        result = JSON.parse(responseText);
+      } catch {
+        res.writeHead(502, { "Content-Type": "application/json" });
+        res.end(JSON.stringify({ error: "Failed to create card link." }));
+        return;
+      }
+      res.writeHead(apiRes.status, { "Content-Type": "application/json" });
+      res.end(JSON.stringify(result));
+    } catch (err) {
+      console.error("[card proxy]", err.message);
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "Something went wrong." }));
+    }
+    return;
+  }
+
   // API proxy — GitHub repo review
   if (req.method === "POST" && req.url === "/api/review-github") {
     try {
