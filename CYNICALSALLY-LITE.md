@@ -1,7 +1,7 @@
 # CYNICALSALLY-LITE — Project File
 
 > Source of truth voor Sally Lite.
-> Laatste update: 2026-03-26 (avond)
+> Laatste update: 2026-03-28
 
 ---
 
@@ -46,7 +46,10 @@ Sally Lite (deze repo)              CynicalSally Backend (cynicalsally-render)
 | Quips from backend | ✅ DONE | Waiting quips fetched van /api/v1/quips |
 | Sectie-based rendering | ✅ DONE | Observations met titels als aparte secties |
 | CLI Burncard | ✅ DONE | Terminal window design, GitHub dark theme, aspect-ratio 9/16, twee-kaart layout naast verdict |
-| Share on X | ✅ DONE | Tweet button met sneer + score |
+| Shareable card URLs | ✅ DONE | /card/:id landing pages op cynicalsally.com, OG metadata, Share + PNG buttons |
+| Share on X | ✅ DONE | Tweet button met /card/:id URL (was raw PNG URL) |
+| Safe JSON parsing | ✅ DONE | Alle proxy responses beschermd tegen HTML error pages |
+| Flagship quota fix | ✅ DONE | Origin header forwarding voor 10k/dag flagship limiet |
 | Bento CTA card | ✅ DONE | Amber Full Suite card met feature list, fullsuitebanner image |
 | GitHub-ready repo | ✅ DONE | README geverifieerd, geen AI branding, OSS compliant, klaar voor Render team |
 | Assets opgeschoond | ✅ DONE | PNGs naar assets/ folder, plan/ uit git tracking (feedback Shifra) |
@@ -72,12 +75,18 @@ Sally Lite (deze repo)              CynicalSally Backend (cynicalsally-render)
 
 ## BACKEND DEPENDENCY
 
-Sally Lite callt: `POST {SALLY_API_URL}/api/v1/review`
+Sally Lite callt:
+- `POST {SALLY_API_URL}/api/v1/review` — code review
+- `POST {SALLY_API_URL}/api/v1/card` — shareable card creation
 
-Request: `{ files: [{path, content}], mode, deviceId, lang, tone }`
+Request (review): `{ files: [{path, content}], mode, deviceId, lang, tone }`
 Response: `{ data: {score, issues, actionable_fixes}, voice: {roast, bright_side, hardest_sneer}, meta, quota }`
 
+Request (card): `{ sneer, score, lang, style, subject, inputType, premium, source }`
+Response: `{ id, url, imageUrl }`
+
 Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrender.com`)
+Environment variable: `RENDER_EXTERNAL_URL` (auto-set by Render, used for Origin header → flagship detection)
 
 ---
 
@@ -86,7 +95,7 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 1. Blogpost live op 1 april samen met Render (guest blog by Thomas Geelens)
 2. Safari extension final review + submit naar Apple
 3. Extension store links invullen in desktop icons (Chrome Web Store + App Store)
-4. Open Graph share page op backend (burncard PNG inline in tweets)
+4. Card view tracking toevoegen (views, clicks, conversies per /card/:id)
 5. Burncard design itereren na live feedback
 
 ## CONTEXT
@@ -123,6 +132,13 @@ Environment variable: `SALLY_API_URL` (default: `https://cynicalsally-web.onrend
 - 2026-03-26: Smart 403 error messages: als geen token → hint om PAT toe te voegen in Render dashboard
 - 2026-03-26: README updated met GitHub Token setup instructies (optional, not required for deploy)
 - 2026-03-26: Cynical Sally LinkedIn profiel aangemaakt
+- 2026-03-27: Safe JSON parsing — alle proxy responses (.json() → .text() + JSON.parse) met user-friendly errors
+- 2026-03-27: Flagship quota fix — Origin header forwarding (Shifra's deploy was gelimiteerd tot 3/dag i.p.v. 10k/dag)
+- 2026-03-27: Lite quota error message verbeterd — linkt naar CLI repo i.p.v. "sally upgrade"
+- 2026-03-27: Shareable burn card URLs — POST /api/v1/card + /card/:id landing pages op cynicalsally.com
+- 2026-03-27: Card clicks openen landing page i.p.v. raw PNG URL (main site + Sally Lite)
+- 2026-03-27: X/Twitter share gebruikt /card/:id URL voor social preview met OG tags
+- 2026-03-27: Card proxy endpoint toegevoegd aan Sally Lite (/api/card)
 
 ---
 
