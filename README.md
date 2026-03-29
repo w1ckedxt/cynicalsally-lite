@@ -7,7 +7,7 @@
 **Free code reviewer. Zero filter. Zero sugarcoating.**
 Paste your code or a GitHub URL, get a brutally honest review with scores, issues, fixes, and a personality that won't hold back.
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2Fw1ckedxt%2Fcynicalsally-lite?utm_source=sally_website&utm_medium=referral&utm_campaign=cynical_sally)
+[![Cynical Sally](https://cynicalsally.com/api/v1/badge/repo/w1ckedxt/cynicalsally-lite)](https://cynicalsally.com) [![Cynical Sally](https://img.shields.io/endpoint?url=https%3A%2F%2Fcynicalsally.com%2Fapi%2Fv1%2Fbadge%2Frepo%2Fw1ckedxt%2Fcynicalsally-lite%2Fshields)](https://cynicalsally.com) [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/blueprint/new?repo=https%3A%2F%2Fgithub.com%2Fw1ckedxt%2Fcynicalsally-lite?utm_source=sally_website&utm_medium=referral&utm_campaign=cynical_sally)
 
 ### Paste code, get roasted
 
