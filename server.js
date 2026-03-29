@@ -10,7 +10,8 @@ const PORT = process.env.PORT || 3000;
 const SALLY_API_URL = process.env.SALLY_API_URL || "https://cynicalsally-web.onrender.com";
 const MAX_CODE_LENGTH = 500 * 1024; // 500KB max paste
 const INSTANCE_DEVICE_ID = `lite-${createHash("sha256").update(SALLY_API_URL + "-sally-lite").digest("hex").slice(0, 16)}`;
-const INSTANCE_ORIGIN = process.env.RENDER_EXTERNAL_URL || "";
+// Origin is derived from the incoming request host, not an env var.
+// This ensures the backend always sees the real deployment URL.
 
 // --- Assets ---
 
@@ -203,7 +204,7 @@ const server = createServer(async (req, res) => {
 
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 120000);
-      const proxyOrigin = INSTANCE_ORIGIN || req.headers.origin || `https://${req.headers.host}`;
+      const proxyOrigin = `https://${req.headers.host}`;
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Origin": proxyOrigin },
@@ -248,7 +249,7 @@ const server = createServer(async (req, res) => {
   if (req.method === "POST" && req.url === "/api/card") {
     try {
       const body = await parseBody(req);
-      const proxyOrigin = INSTANCE_ORIGIN || req.headers.origin || `https://${req.headers.host}`;
+      const proxyOrigin = `https://${req.headers.host}`;
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/card`, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Origin": proxyOrigin },
@@ -306,7 +307,7 @@ const server = createServer(async (req, res) => {
       }
       console.log(`[github review] Sending ${trimmedFiles.length} files (${Math.round(totalSize / 1024)}KB)`);
 
-      const ghProxyOrigin = INSTANCE_ORIGIN || req.headers.origin || `https://${req.headers.host}`;
+      const ghProxyOrigin = `https://${req.headers.host}`;
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 120000);
       const apiRes = await fetch(`${SALLY_API_URL}/api/v1/review`, {
